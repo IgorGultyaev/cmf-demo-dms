@@ -3,17 +3,24 @@ package ru.croc.ctp.cmf.demodms.document.outgoing.impl.process;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Collections.singletonList;
 import static java.util.Objects.requireNonNull;
+import static ru.croc.ctp.cmf.security.role.RoleParamsBuilder.roleParamsBuilder;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.croc.ctp.cmf.demodms.document.contract.domain.ContractDocument;
 import ru.croc.ctp.cmf.demodms.document.domain.OutgoingDocument;
 import ru.croc.ctp.cmf.demodms.document.domain.repo.OutgoingDocumentRepository;
+import ru.croc.ctp.cmf.dms.dictionary.documenttype.domain.DocumentType;
+import ru.croc.ctp.cmf.dms.dictionary.orgstructure.domain.Company;
 import ru.croc.ctp.cmf.dms.dictionary.orgstructure.domain.EmployeePosition;
 import ru.croc.ctp.cmf.dms.document.process.assignee.impl.DocumentTaskAssigneeResolver;
+import ru.croc.ctp.cmf.dms.security.role.DmsRoleName;
 import ru.croc.ctp.cmf.process.ProcessMethod;
+import ru.croc.ctp.cmf.security.role.RoleParams;
 import ru.croc.ctp.cmf.security.role.RoleService;
 import ru.croc.ctp.cmf.task.camunda.ProcessTaskAssigneeConverter;
+import ru.croc.ctp.jxfw.core.domain.DomainObjectIdentity;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -27,6 +34,22 @@ import java.util.Collections;
 @SuppressFBWarnings("FCCD_FIND_CLASS_CIRCULAR_DEPENDENCY") // TODO: подумать, что можно сделать.
 @Component("processOutgoingDocumentTaskAssigneeResolver")
 public class OutgoingDocumentTaskAssigneeResolver implements DocumentTaskAssigneeResolver<OutgoingDocument> {
+
+//**************************
+    @Transactional(readOnly = true)
+    @ProcessMethod
+    public Collection<String> resolveOutgoRegistrationTaskAssigneeIds(final String documentId) {
+        final OutgoingDocument document = documentRepository.findById(documentId).get();
+        final RoleParams registratorRoleParams = roleParamsBuilder().withRoleName(DmsRoleName.ROLE_DOCUMENT_REGISTRATOR)
+                .withRoleParam(requireNonNull(Company.TYPE_NAME), document.getOrganization().getId())
+                .withRoleParam(requireNonNull(DocumentType.TYPE_NAME), document.getDocumentType().getId())
+                .build();
+        final DomainObjectIdentity<?> registratorIdentity =
+                roleService.resolveOrCreateAccessorsGroupIdentity(registratorRoleParams);
+
+        return singletonList(processTaskAssigneeConverter.assigneeToProcessEngine(registratorIdentity));
+    }
+//*********************
 
     /**
      * Репозиторий работы с документом.
