@@ -1,0 +1,12 @@
+import "app/ui/document/contract/ContractDocumentObjectEditor";
+import "app/ui/document/contract/ContractDocumentObjectViewer";
+import "app/ui/document/contract/ContractDocumentTaskCreateProjectPart";
+import "app/ui/document/contract/ContractDocumentTaskApproveCommonPart";
+import "app/ui/document/contract/ContractDocumentTaskSignCommonPart";
+import "app/ui/document/contract/ContractDocumentTaskRegisterPart";
+import "app/ui/document/contract/ContractDocumentTaskAttachOriginalPart";
+import "app/ui/document/contract/ContractDocumentTaskRefinePart";
+import "app/ui/document/contract/ContractDocumentTaskTakeStoragePart";
+import "app/ui/document/contract/journal/ContractDocumentJournal";
+import "app/ui/document/contract/journal/ContractDocumentJournalObjectFilter";
+import "app/ui/document/contract/search/contractDocumentRegisterInSearch";

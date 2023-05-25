@@ -1,0 +1,132 @@
+{
+    "extends": "./node_modules/@croc/webclient/tsconfig",
+    "compilerOptions": {
+        "forceConsistentCasingInFileNames": true,
+        "module": "amd",
+        "target": "es3",
+        "sourceMap": true,
+        "declaration": false,
+        "noEmitHelpers": true,
+        "experimentalDecorators": true,
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "baseUrl": ".",
+        "rootDir": ".",
+        "outDir": "build",
+        "paths": {
+            "app/*": [
+                "src/app/*"
+            ],
+            "cmf/modules/dashboard/*": [
+                "node_modules/@ctp.cmf/cmf-dashboard-ui/dist/cmf/modules/dashboard/*"
+            ],
+            "cmf/modules/calendar/*": [
+                "node_modules/@ctp.cmf/cmf-calendar-ui/dist/cmf/modules/calendar/*"
+            ],
+            "cmf/*": [
+                "node_modules/@ctp.cmf/cmf-ui/dist/cmf/*"
+            ],
+            "dms/modules/icons/*": [
+                "node_modules/@ctp.cmf/cmf-dms-appicon-ui/dist/dms/modules/icons/*"
+            ],
+            "dms/modules/bookmarks/*": [
+                "node_modules/@ctp.cmf/cmf-dms-bookmarks-ui/dist/dms/modules/bookmarks/*"
+            ],
+            "dms/modules/info/*": [
+                "node_modules/@ctp.cmf/cmf-dms-info-ui/dist/dms/modules/info/*"
+            ],
+            "dms/modules/dictionary/extension/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-model-extension-ui/dist/dms/modules/dictionary/extension/*"
+            ],
+            "dms/modules/dictionary/common/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-common-ui/dist/dms/modules/dictionary/common/*"
+            ],
+            "dms/modules/dictionary/security/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-security-ui/dist/dms/modules/dictionary/security/*"
+            ],
+            "dms/modules/dictionary/user/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-user-ui/dist/dms/modules/dictionary/user/*"
+            ],
+            "dms/modules/dictionary/employee/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-employee-ui/dist/dms/modules/dictionary/employee/*"
+            ],
+            "dms/modules/dictionary/positionDescription/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-position-description-ui/dist/dms/modules/dictionary/positionDescription/*"
+            ],
+            "dms/modules/dictionary/role/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-role-ui/dist/dms/modules/dictionary/role/*"
+            ],
+            "dms/modules/dictionary/orgstructure/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-orgstructure-ui/dist/dms/modules/dictionary/orgstructure/*"
+            ],
+            "dms/modules/security/*": [
+                "node_modules/@ctp.cmf/cmf-dms-security-ui/dist/dms/modules/security/*"
+            ],
+            "dms/modules/task/*": [
+                "node_modules/@ctp.cmf/cmf-dms-task-ui/dist/dms/modules/task/*"
+            ],
+            "dms/modules/mainPage/*": [
+                "node_modules/@ctp.cmf/cmf-dms-mainpage-ui/dist/dms/modules/mainPage/*"
+            ],
+            "dms/modules/document/regnumber/*": [
+                "node_modules/@ctp.cmf/cmf-dms-document-regnumber-ui/dist/dms/modules/document/regnumber/*"
+            ],
+            "dms/modules/report/*": [
+                "node_modules/@ctp.cmf/cmf-dms-report-ui/dist/dms/modules/report/*"
+            ],
+            "dms/modules/comment/*": [
+                "node_modules/@ctp.cmf/cmf-dms-comment-ui/dist/dms/modules/comment/*"
+            ],
+            "dms/modules/relation/*": [
+                "node_modules/@ctp.cmf/cmf-dms-relation-ui/dist/dms/modules/relation/*"
+            ],
+            "dms/modules/common/*": [
+                "node_modules/@ctp.cmf/cmf-dms-common-ui/dist/dms/modules/common/*"
+            ],
+            "dms/modules/document/approval/*": [
+                "node_modules/@ctp.cmf/cmf-dms-document-approval-ui/dist/dms/modules/document/approval/*"
+            ],
+            "dms/modules/document/process/*": [
+                "node_modules/@ctp.cmf/cmf-dms-document-process-ui/dist/dms/modules/document/process/*"
+            ],
+            "dms/modules/document/*": [
+                "node_modules/@ctp.cmf/cmf-dms-document-ui/dist/dms/modules/document/*"
+            ],
+            "dms/modules/commission/*": [
+                "node_modules/@ctp.cmf/cmf-dms-commission-ui/dist/dms/modules/commission/*"
+            ],
+            "dms/modules/search/*": [
+                "node_modules/@ctp.cmf/cmf-dms-search-ui/dist/dms/modules/search/*"
+            ],
+            "lib/*": [
+                "node_modules/@croc/webclient/dist/lib/*"
+            ],
+            "modules/*": [
+                "node_modules/@croc/webclient/dist/modules/*"
+            ],
+            "vendor/*": [
+                "node_modules/@croc/webclient/dist/vendor/*"
+            ],
+            "core": [
+                "node_modules/@croc/webclient/dist/lib/core"
+            ],
+            "moment": [
+                "node_modules/@croc/webclient/dist/vendor/moment/moment"
+            ],
+            "Draggable": [
+                "node_modules/@shopify/draggable/lib/es5/draggable.bundle.legacy.js"
+            ],
+            "chartjs": [
+                "node_modules/chart.js/dist/Chart.js"
+            ],
+            "pdfjs-dist/build/pdf": [
+                "node_modules/@ctp.cmf/cmf-ui/dist/cmf/vendor/pdfjs-dist/build/pdf"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/.*.ts"
+    ],
+    "compileOnSave": true
+}

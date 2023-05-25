@@ -1,0 +1,72 @@
+<div>
+    {{#if-not editor.presenter.options.hideMenu}}
+        <div class="x-editor-tab-content row hide-lg" style="margin: 0px">
+            <div class="x-editor-menu-container x-menu-bar">
+                {{#if-menu editor.topMenuSwitch}}
+                    {{view class="ui.MenuPresenter" viewModel=editor.topMenuSwitch tag="div"
+                           cssClass="x-editor-menu hide-lg" dropup=true}}
+                {{/if-menu}}
+                {{view class="ui.MenuPresenter" viewModel=editor.topMenu tag="div"
+                       cssClass="x-editor-menu cmf-hideable-menu" dropup=true}}
+            </div>
+        </div>
+    {{/if-not}}
+    <div class="col-lg-4 cmf-task">
+        <div id="task-affix" class="task-affix">
+            <div class="row x-pe-container">
+                <label class="col-sm-5 x-pe-label">{{viewModel.meta.props.reviewDeadlineDate.descr}}</label>
+                <div class="col-sm-7">
+                    {{pe name="reviewDeadlineDate" viewModel=viewModel tag="div"  readOnly=true}}
+                </div>
+            </div>
+
+            <div class="row x-pe-container">
+                <label class="col-sm-5 x-pe-label">{{viewModel.meta.props.correspondentExternal.descr}}</label>
+                <div class="col-sm-7">
+                    {{pe name="correspondentExternal" viewModel=viewModel tag="div"  readOnly=true}}
+                </div>
+            </div>
+
+            <div class="row x-pe-container">
+                <label class="col-sm-5 x-pe-label">{{viewModel.meta.props.referenceNumber.descr}}</label>
+                <div class="col-sm-7">
+                    {{pe name="referenceNumber" viewModel=viewModel tag="div"  readOnly=true}}
+                </div>
+            </div>
+
+            <div class="row x-pe-container">
+                <label class="col-sm-5 x-pe-label">{{viewModel.meta.props.referenceDate.descr}}</label>
+                <div class="col-sm-7">
+                    {{pe name="referenceDate" viewModel=viewModel tag="div"  readOnly=true}}
+                </div>
+            </div>
+
+            <div class="row x-pe-container">
+                <label class="col-sm-5 x-pe-label">{{viewModel.meta.props.permission.descr}}</label>
+                <div class="col-sm-7">
+                    {{pe name="permission" viewModel=viewModel tag="div"  readOnly=true}}
+                </div>
+            </div>
+
+            <div class="row x-pe-container">
+                <label class="col-sm-5 x-pe-label">{{viewModel.meta.props.summary.descr}}</label>
+                <div class="col-sm-7">
+                    {{pe name="summary" viewModel=viewModel tag="div"  readOnly=true}}
+                </div>
+            </div>
+
+            {{#borderedEditor title=options.resources.commissions}}
+                {{render editor.commissionsList}}
+            {{/borderedEditor}}
+
+        </div>
+    </div>
+
+    <div class="col-lg-8 cmf-document command-hide" style="padding-right:0px;">
+        {{render previewComponent}}
+    </div>
+</div>
+<!--Расположен именно здесь, что бы корректно перехватывать управление #task-affix в случае,
+когда #task-affix откреплен и его контент занял всю доступную высоту-->
+<div id="task-affix-bottom" style="widht= 100%"></div>
+

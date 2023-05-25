@@ -1,0 +1,6 @@
+-- Начальное наполнение справочника типов и подтипов документов.
+insert into cmf_documenttype (id, parent_id, dtype, name, deleted, system_name, template_document_entity_name, creation_time, last_modified_time, ts) values ('id_documentType_outgoingDocument',  'id_documentType_outgoingDocument', 'type', 'Исходящий документ', false, 'DocumentType_Outgoing', 'OutgoingDocument', '2016-11-01 12:09:10', '2016-11-01 12:09:10', 1);
+insert into cmf_documenttype (id, parent_id, dtype, name, deleted, creation_time, last_modified_time, ts) values ('id_documentSubType_outgoingDocument', 'id_documentType_outgoingDocument', 'subtype', 'Исходящий документ ', false, '2016-11-01 12:09:10', '2016-11-01 12:09:10',  1);
+
+insert into cmf_documenttype (id, parent_id, dtype, name, deleted, system_name, creation_time, last_modified_time, ts) values ('id_documentType_incomingDocument',  'id_documentType_incomingDocument', 'type', 'Входящий документ', false, 'DocumentType_Incoming', '2016-11-01 12:09:10', '2016-11-01 12:09:10', 1);
+insert into cmf_documenttype (id, parent_id, dtype, name, deleted, creation_time, last_modified_time, ts) values ('id_documentSubType_incomingDocument', 'id_documentType_incomingDocument', 'subtype', 'Входящий документ ', false, '2016-11-01 12:09:10', '2016-11-01 12:09:10',  1);

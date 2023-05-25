@@ -1,0 +1,25 @@
+-- Начальное наполнение справочника типов и подтипов документов (шаблоны документов).
+
+-- РИК
+insert into cmf_acl_composite (acl_id, purpose, child_acl_id, allow, ts) values ('acl_id_OutgoingDocument_emptyOutgoingDocumentTemplate_ooorik', 'commonAclTemplate', 'id_acl_CommonDocumentTemplate', 2147483647, 1);
+insert into cmf_acl_parent_2_all_children  (acl_id, child_acl_id, allow, ts) values ('acl_id_OutgoingDocument_emptyOutgoingDocumentTemplate_ooorik', 'id_acl_CommonDocumentTemplate', 2147483647, 1);
+insert into cmf_document_common (id, dtype, document_type_id, organization_id, identifier, creation_date, author_id, status_id, permission, acl_id, creation_time, last_modified_time, ts) values ('id_OutgoingDocument_emptyOutgoingDocumentTemplate_ooorik', 'outgoing', 'id_documentSubType_outgoingDocument', 'id_org_structure_ooorik', 'template', '2018-07-27', 'id_org_structure_ivanov', 'id_DocumentStatus_Template', 0, 'acl_id_OutgoingDocument_emptyOutgoingDocumentTemplate_ooorik', '2018-07-27 18:11:37', '2018-07-27 18:11:37', 1);
+insert into cmf_document_outgoing (id, urgent, paper) values ('id_OutgoingDocument_emptyOutgoingDocumentTemplate_ooorik', false, false);
+
+insert into cmf_acl_composite (acl_id, purpose, child_acl_id, allow, ts) values ('acl_approval_id_OutgoingDocument_emptyOutgoingDocumentTemplate_ooorik', 'approving_object', 'acl_id_OutgoingDocument_emptyOutgoingDocumentTemplate_ooorik', 2147483647, 1);
+insert into cmf_acl_parent_2_all_children  (acl_id, child_acl_id, allow, ts) values ('acl_approval_id_OutgoingDocument_emptyOutgoingDocumentTemplate_ooorik', 'id_acl_CommonDocumentTemplate', 2147483647, 1);
+insert into cmf_approval_iteration (id, document_id, position, state, acl_id, ts) values ('id_ApprovalIteration_emptyOutgoingDocumentTemplateIteration_ooorik', 'id_OutgoingDocument_emptyOutgoingDocumentTemplate_ooorik', 0, 0, 'acl_approval_id_OutgoingDocument_emptyOutgoingDocumentTemplate_ooorik', 1);
+
+insert into cmf_documenttemplate (id, parent_id, company_id, name, deleted, document_id, creation_time, last_modified_time, ts) values ('id_documentTemplate_emptyOutgoingDocument_ooorik', 'id_documentSubType_outgoingDocument', 'id_org_structure_ooorik', 'Пустой шаблон', false, 'id_OutgoingDocument_emptyOutgoingDocumentTemplate_ooorik', '2016-11-01 12:40:12', '2016-11-01 12:40:12',  1);
+
+-- ТрансКапиталРазвитие
+insert into cmf_acl_composite (acl_id, purpose, child_acl_id, allow, ts) values ('acl_id_OutgoingDocument_emptyOutgoingDocumentTemplate_transcapitalrazvitie', 'commonAclTemplate', 'id_acl_CommonDocumentTemplate', 2147483647, 1);
+insert into cmf_acl_parent_2_all_children  (acl_id, child_acl_id, allow, ts) values ('acl_id_OutgoingDocument_emptyOutgoingDocumentTemplate_transcapitalrazvitie', 'id_acl_CommonDocumentTemplate', 2147483647, 1);
+insert into cmf_document_common (id, dtype, document_type_id, organization_id, identifier, creation_date, author_id, status_id, permission, acl_id, creation_time, last_modified_time, ts) values ('id_OutgoingDocument_emptyOutgoingDocumentTemplate_transcapitalrazvitie', 'outgoing', 'id_documentSubType_outgoingDocument', 'id_orgstructure_tcr_transcapitalrazvitie', 'template', '2018-07-27', 'id_orgstructure_tcr_kirillova2', 'id_DocumentStatus_Template', 0, 'acl_id_OutgoingDocument_emptyOutgoingDocumentTemplate_transcapitalrazvitie', '2018-07-27 18:36:52', '2018-07-27 18:36:52', 1);
+insert into cmf_document_outgoing (id, urgent, paper) values ('id_OutgoingDocument_emptyOutgoingDocumentTemplate_transcapitalrazvitie', false, false);
+
+insert into cmf_acl_composite (acl_id, purpose, child_acl_id, allow, ts) values ('acl_approval_id_OutgoingDocument_emptyOutgoingDocumentTemplate_transcapitalrazvitie', 'approving_object', 'acl_id_OutgoingDocument_emptyOutgoingDocumentTemplate_transcapitalrazvitie', 2147483647, 1);
+insert into cmf_acl_parent_2_all_children  (acl_id, child_acl_id, allow, ts) values ('acl_approval_id_OutgoingDocument_emptyOutgoingDocumentTemplate_transcapitalrazvitie', 'id_acl_CommonDocumentTemplate', 2147483647, 1);
+insert into cmf_approval_iteration (id, document_id, position, state, acl_id, ts) values ('id_ApprovalIteration_emptyOutgoingDocumentTemplateIteration_transcapitalrazvitie', 'id_OutgoingDocument_emptyOutgoingDocumentTemplate_transcapitalrazvitie', 0, 0, 'acl_approval_id_OutgoingDocument_emptyOutgoingDocumentTemplate_transcapitalrazvitie', 1);
+
+insert into cmf_documenttemplate (id, parent_id, company_id, name, deleted, document_id, creation_time, last_modified_time, ts) values ('id_documentTemplate_emptyOutgoingDocument_transcapitalrazvitie', 'id_documentSubType_outgoingDocument', 'id_orgstructure_tcr_transcapitalrazvitie', 'Пустой шаблон', false, 'id_OutgoingDocument_emptyOutgoingDocumentTemplate_transcapitalrazvitie', '2016-11-01 12:40:12', '2016-11-01 12:40:12',  1);

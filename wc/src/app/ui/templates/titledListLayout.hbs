@@ -1,0 +1,31 @@
+{{#if-not hidden}}
+    {{#peLayout}}
+        {{#if isFullWidth}}
+            <div class="row x-pe-container cmf-pe-bordered x-pe-no-padding" id="{{this.options.name}}">
+                <div class="pull-left title-label" {{toggleClass x-pe-label--notnull="notnull"}}>{{title}} {{#if
+                        (and options.hint (not options.hideHelp))}}{{icon name="help"
+                                                                          addCssClass="x-pe-help"}}{{/if}}</div>
+                <div class="x-pe x-pe-no-padding col-xs-12" id="{{push-id}}">
+                    {{render this target=":pop-id"}}
+                </div>
+            </div>
+        {{else}}
+            <div class="row x-pe-container cmf-pe-bordered x-pe-no-padding" id="{{this.options.name}}">
+                {{#if (or @peLayout.noLabel this.options.layout.noLabel)}}
+                    <div class="{{@context.editorPage.options.cssColumnPrefix}}{{@peLayout.peColumnRatio}}
+                        {{@context.editorPage.options.cssColumnPrefix}}offset-{{@peLayout.labelColumnRatio}} x-pe x-pe-no-padding"
+                         id="{{push-id}}">{{render this target=":pop-id"}}</div>
+                {{else}}
+                    <div for="{{id}}"
+                         class="{{@context.editorPage.options.cssColumnPrefix}}{{@peLayout.labelColumnRatio}} pull-left title-label"
+                        {{toggleClass x-pe-label--notnull="notnull"}}>{{title}} {{#if
+                            (and options.hint (not options.hideHelp))}}{{icon name="help"
+                                                                              addCssClass="x-pe-help"}}{{/if}}</div>
+                    <div class="{{@context.editorPage.options.cssColumnPrefix}}{{@peLayout.peColumnRatio}} x-pe x-pe-no-padding"
+                         id="{{push-id}}">{{render this target=":pop-id"}}</div>
+                {{/if}}
+            </div>
+        {{/if}}
+    {{/peLayout}}
+{{/if-not}}
+

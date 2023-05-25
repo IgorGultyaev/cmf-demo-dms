@@ -1,0 +1,3 @@
+# Project exclude paths
+/target/
+/wc/node_modules/

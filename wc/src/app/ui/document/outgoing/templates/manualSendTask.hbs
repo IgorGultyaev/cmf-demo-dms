@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-sm-6">
+        <div class="gap">
+            {{peContainer editors.organization}}
+            {{peContainer editors.documentKind}}
+            {{peContainer editors.status}}
+            {{peContainer editors.summary}}
+            {{peContainer editors.sheetsAmount columnsRatio="4:8"}}
+            {{peContainer editors.annexSheetsAmount columnsRatio="4:8"}}
+        </div>
+    </div>
+    <div class="col-sm-6">
+        {{peContainer editors.urgent}}
+        {{peContainer editors.paper}}
+        {{peContainer editors.permission}}
+        <div class="row x-pe-container">
+            <label class="col-xs-4 x-pe-label">{{viewModel.meta.model.entities.OutgoingDocument.props.performer.descr}}</label>
+            <div class="col-xs-8 x-pe">
+                <div class="show-info"
+                     field="performer">{{pe name="performer" viewModel=viewModel tag="div" readOnly=true}}</div>
+            </div>
+        </div>
+        <div class="row x-pe-container">
+            <label class="col-xs-4 x-pe-label">{{viewModel.meta.model.entities.OutgoingDocument.props.signatory.descr}}</label>
+            <div class="col-xs-8 x-pe">
+                <div class="show-info"
+                     field="signatory">{{pe name="signatory" viewModel=viewModel tag="div" readOnly=true}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        {{peContainer editors.addressees}}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        {{#borderedEditor title=options.resources.title}}
+            {{render attachmentComponent}}
+        {{/borderedEditor}}
+    </div>
+</div>

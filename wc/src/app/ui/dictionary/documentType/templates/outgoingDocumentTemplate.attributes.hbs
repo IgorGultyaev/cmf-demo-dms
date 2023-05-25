@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-lg-5">
+        {{peContainer editors.[document.organization]}}
+        {{peContainer editors.[document.documentKind]}}
+        {{peContainer editors.[document.status]}}
+        {{peContainer editors.[document.summary]}}
+    </div>
+    <div class="col-lg-2">
+    </div>
+    <div class="col-lg-5">
+        <div class="row">
+            <div class="col-xs-6">
+                {{peContainer editors.[document.urgent] columnsRatio="8:4"}}
+            </div>
+            <div class="col-xs-6">
+                {{peContainer editors.[document.paper] columnsRatio="8:4"}}
+            </div>
+        </div>
+        {{peContainer editors.[document.permission]}}
+        {{peContainer editors.[document.author]}}
+        {{peContainer editors.[document.performer]}}
+        {{peContainer editors.[document.registrator]}}
+        {{peContainer editors.[document.nomenclatureCase]}}
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        {{peContainer editors.[document.addressees]}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-5">
+        {{peContainer editors.[document.sheetsAmount] columnsRatio="8:4"}}
+    </div>
+    <div class="col-lg-2">
+    </div>
+    <div class="col-lg-5">
+        {{peContainer editors.[document.annexSheetsAmount] columnsRatio="8:4"}}
+    </div>
+</div>

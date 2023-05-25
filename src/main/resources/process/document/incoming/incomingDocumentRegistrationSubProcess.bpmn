@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.7.2">
+  <bpmn:process id="IncomingDocumentRegistrationSubProcess" name="Регистрация входящего документа" isExecutable="true">
+    <bpmn:startEvent id="processStartEvent">
+      <bpmn:outgoing>SequenceFlow_0dv5axb</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="processEndEvent">
+      <bpmn:incoming>SequenceFlow_0e9szrc</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ServiceTask_SwitchToRegistration" name="Установка состояния &#34;Регистрация&#34;" camunda:expression="${processDocumentStatusHandler.switchToRegistration(processObjectId)}">
+      <bpmn:incoming>SequenceFlow_0dv5axb</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0wi9xor</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="UserTask_Register" name="Регистрация документа" camunda:candidateUsers="${processIncomingDocumentTaskAssigneeResolver.resolveRegistrationTaskAssigneeIds(processObjectId)}">
+      <bpmn:extensionElements>
+        <camunda:taskListener expression="${processTaskListener.createTask(task,&#34;TaskType_Document_Register&#34;,processObjectId)}" event="create" />
+        <camunda:taskListener expression="${processTaskListener.deleteTask(task)}" event="delete" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0wi9xor</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0oxmgby</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="ServiceTask_AttachRegNumber" name="Присовение рег. номера" camunda:expression="${processDocumentRegistrationHandler.register(processObjectId)}">
+      <bpmn:incoming>SequenceFlow_0oxmgby</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0e9szrc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0dv5axb" sourceRef="processStartEvent" targetRef="ServiceTask_SwitchToRegistration" />
+    <bpmn:sequenceFlow id="SequenceFlow_0wi9xor" sourceRef="ServiceTask_SwitchToRegistration" targetRef="UserTask_Register" />
+    <bpmn:sequenceFlow id="SequenceFlow_0oxmgby" sourceRef="UserTask_Register" targetRef="ServiceTask_AttachRegNumber" />
+    <bpmn:sequenceFlow id="SequenceFlow_0e9szrc" sourceRef="ServiceTask_AttachRegNumber" targetRef="processEndEvent" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="IncomingDocumentRegistrationSubProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="processStartEvent">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1fmwrlj_di" bpmnElement="processEndEvent">
+        <dc:Bounds x="655" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="673" y="142" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0isqh4f_di" bpmnElement="ServiceTask_SwitchToRegistration">
+        <dc:Bounds x="241" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_04wjvhx_di" bpmnElement="UserTask_Register">
+        <dc:Bounds x="382" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0ey2llq_di" bpmnElement="ServiceTask_AttachRegNumber">
+        <dc:Bounds x="516" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0dv5axb_di" bpmnElement="SequenceFlow_0dv5axb">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="241" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="225" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0wi9xor_di" bpmnElement="SequenceFlow_0wi9xor">
+        <di:waypoint xsi:type="dc:Point" x="341" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="382" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="361.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0oxmgby_di" bpmnElement="SequenceFlow_0oxmgby">
+        <di:waypoint xsi:type="dc:Point" x="482" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="516" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="499" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0e9szrc_di" bpmnElement="SequenceFlow_0e9szrc">
+        <di:waypoint xsi:type="dc:Point" x="616" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="655" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="635.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

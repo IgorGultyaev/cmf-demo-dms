@@ -1,0 +1,16 @@
+{{#if-not options.hideMenuRow}}
+    <div class="x-list-menu-row-container {{options.menuRowCssClass}}" id="{{push-id}}">
+        {{#observe this target=":pop-id"}}
+            {{#if-menu list.menuSelection}}
+                <div id="{{push-id}}" class="pull-left" {{data-bind transparent="isReloading" target=":peek-id"}}>
+                    {{part class="ui.MenuPresenter" viewModel=list.menuSelection target=":pop-id" dropup=true}}
+                </div>
+            {{/if-menu}}
+            {{#if-menu list.menuRow}}
+                <div id="{{push-id}}" class="pull-right" {{data-bind transparent="isReloading" target=":peek-id"}}>
+                    {{part class="ui.MenuPresenter" viewModel=list.menuRow target=":pop-id" dropup=true}}
+                </div>
+            {{/if-menu}}
+        {{/observe}}
+    </div>
+{{/if-not}}

@@ -1,0 +1,2 @@
+INSERT INTO cmf_regnumber_template(id, template, creation_time, last_modified_time, ts, type_id)  VALUES ('id_template_outgoing_document', 'СЭД-{$НУМОБЩПОДТИП}-{Г}-исх', '2016-11-01 12:09:10', '2016-11-01 12:09:10', 1, 'id_documentType_outgoingDocument');
+INSERT INTO cmf_regnumber_template(id, template, creation_time, last_modified_time, ts, type_id)  VALUES ('id_template_incoming_document', 'СЭД-{$НУМОБЩПОДТИП}-{Г}-вх', '2016-11-01 12:09:10', '2016-11-01 12:09:10', 1, 'id_documentType_incomingDocument');

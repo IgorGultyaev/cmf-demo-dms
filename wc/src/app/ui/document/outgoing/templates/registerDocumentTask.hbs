@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-lg-5">
+        {{peContainer editors.organization}}
+        {{peContainer editors.documentKind}}
+        {{peContainer editors.status}}
+        {{peContainer editors.summary}}
+    </div>
+    <div class="col-lg-2">
+    </div>
+    <div class="col-lg-5">
+        <div class="row">
+            <div class="col-xs-6 not-null-without-star">
+                <div class="row x-pe-container">
+                    <label class="col-xs-8 x-pe-label">{{editors.urgent.options.descr}}</label>
+                    <div class="col-xs-4">
+                        {{pe name="urgent" viewModel=viewModel tag="div"}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 not-null-without-star">
+                <div class="row x-pe-container">
+                    <label class="col-xs-8 x-pe-label">{{editors.paper.options.descr}}</label>
+                    <div class="col-xs-4">
+                        {{pe name="paper" viewModel=viewModel tag="div"}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{peContainer editors.permission}}
+        {{peContainer editors.author}}
+        {{peContainer editors.performer}}
+        {{peContainer editors.nomenclatureCase}}
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        {{peContainer editors.addressees}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-5">
+        {{peContainer editors.sheetsAmount columnsRatio="8:4"}}
+    </div>
+    <div class="col-lg-2">
+    </div>
+    <div class="col-lg-5">
+        {{peContainer editors.annexSheetsAmount columnsRatio="8:4"}}
+    </div>
+</div>

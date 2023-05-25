@@ -1,0 +1,41 @@
+@import (reference) "@ctp.cmf/cmf-dms-bookmarks-ui/dist/dms/modules/bookmarks/styles/bookmarks.less";
+
+@search-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2) inset;
+//Высчитываем длину инпута для поиска, чтобы он был шириной со все закладки.
+@search-box-width: @bookmark-width * @bookmarks-per-row + @bookmark-margin * 2 * (@bookmarks-per-row - 1);
+
+.search-box {
+    display: inline-block;
+    padding: 6px 0;
+    position: absolute;
+    width: @search-box-width;
+    max-width: @search-box-width;
+    left: ~"calc(50% - " @search-box-width / 2 ~")";
+
+    input {
+        padding: 0 15px;
+        width: 100%;
+        display: inline-block;
+        height: 36px;
+        border: none;
+        -webkit-box-shadow: @search-box-shadow;
+        -moz-box-shadow: @search-box-shadow;
+        box-shadow: @search-box-shadow;
+    }
+
+    //В wc нет переменных для медиа запросов, поэтому тут 1599.
+    @media (max-width: 1599px) {
+        position: relative;
+        width: 40%;
+        left: 0;
+    }
+}
+
+.logo {
+    display: inline-block;
+    padding-right: 14px;
+}
+
+.x-app-navbar {
+    border-bottom: none !important;
+}

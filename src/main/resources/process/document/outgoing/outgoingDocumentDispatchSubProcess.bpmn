@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.6.0">
+  <bpmn:process id="OutgoingDocumentDispatchSubProcess" name="Отправка исходящего документа" isExecutable="true">
+    <bpmn:startEvent id="processStartEvent" name="Старт подпроцесса">
+      <bpmn:outgoing>SequenceFlow_0bpg8lu</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="processEndEvent" name="Завершение подпроцесса">
+      <bpmn:incoming>SequenceFlow_1p8ih8e</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ServiceTask_SendDocument" name="Автоматическая отправка" camunda:expression="${processOutgoingDocumentDispatchHandler.sendDocuments(processObjectId)}">
+      <bpmn:incoming>SequenceFlow_1ndp8cm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0tpiyfa</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="UserTask_SendDocument" name="Ручная отправка документа" camunda:candidateUsers="${processOutgoingDocumentTaskAssigneeResolver.resolveSendDocumentTaskAssigneeIds(processObjectId)}">
+      <bpmn:extensionElements>
+        <camunda:taskListener expression="${processTaskListener.createTask(task,&#34;TaskType_Document_Send&#34;,processObjectId)}" event="create" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_UserSendDocumentTaskRequired</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1xl8sqn</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1xl8sqn" sourceRef="UserTask_SendDocument" targetRef="ExclusiveGateway_DocumentWasSent" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_DocumentWasSent">
+      <bpmn:incoming>SequenceFlow_1xl8sqn</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_UserSendDocumentTaskNotRequired</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1d1s7gf</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_UserSendDocumentTaskNotRequired" name="Нет&#10;&#10;" sourceRef="ExclusiveGateway_SendDocumentUserTaskRequired" targetRef="ExclusiveGateway_DocumentWasSent">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!sendDocumentUserTaskRequired}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_UserSendDocumentTaskRequired" name="Да&#10;&#10;" sourceRef="ExclusiveGateway_SendDocumentUserTaskRequired" targetRef="UserTask_SendDocument">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${sendDocumentUserTaskRequired}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_SendDocumentUserTaskRequired" name="Нужна ли ручная отправка?">
+      <bpmn:incoming>SequenceFlow_1s9stz9</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_UserSendDocumentTaskNotRequired</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_UserSendDocumentTaskRequired</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="ServiceTask_ResolveIfSendDocumentUserTaskRequired" name="Определение, нужна ли ручная отправка&#10;&#10;" camunda:expression="${processOutgoingDocumentDispatchHandler.checkIfUserTaskRequired(processObjectId)}" camunda:resultVariable="sendDocumentUserTaskRequired">
+      <bpmn:incoming>SequenceFlow_0tpiyfa</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1s9stz9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0tpiyfa" sourceRef="ServiceTask_SendDocument" targetRef="ServiceTask_ResolveIfSendDocumentUserTaskRequired" />
+    <bpmn:sequenceFlow id="SequenceFlow_1s9stz9" sourceRef="ServiceTask_ResolveIfSendDocumentUserTaskRequired" targetRef="ExclusiveGateway_SendDocumentUserTaskRequired" />
+    <bpmn:serviceTask id="ServiceTask_0y5ido0" name="Установка статуса отправки" camunda:expression="${processOutgoingDocumentStatusHandler.switchToDispatch(processObjectId)}">
+      <bpmn:incoming>SequenceFlow_0bpg8lu</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1jageny</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0bpg8lu" sourceRef="processStartEvent" targetRef="ServiceTask_0y5ido0" />
+    <bpmn:sequenceFlow id="SequenceFlow_1jageny" sourceRef="ServiceTask_0y5ido0" targetRef="ServiceTask_0pnw6dl" />
+    <bpmn:serviceTask id="ServiceTask_0cek1qi" name="Установка статуса &#34;отправлен&#34;" camunda:expression="${processOutgoingDocumentStatusHandler.switchToSent(processObjectId)}">
+      <bpmn:incoming>SequenceFlow_1d1s7gf</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1p8ih8e</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1d1s7gf" sourceRef="ExclusiveGateway_DocumentWasSent" targetRef="ServiceTask_0cek1qi" />
+    <bpmn:sequenceFlow id="SequenceFlow_1p8ih8e" sourceRef="ServiceTask_0cek1qi" targetRef="processEndEvent" />
+    <bpmn:serviceTask id="ServiceTask_0pnw6dl" name="Установка статуса &#34;На отправке&#34; для адресатов" camunda:expression="${processOutgoingDocumentDispatchHandler.setDeliveryStatusesToAddressees(processObjectId)}">
+      <bpmn:incoming>SequenceFlow_1jageny</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ndp8cm</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1ndp8cm" sourceRef="ServiceTask_0pnw6dl" targetRef="ServiceTask_SendDocument" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="OutgoingDocumentDispatchSubProcess">
+      <bpmndi:BPMNShape id="StartEvent_0abypir_di" bpmnElement="processStartEvent">
+        <dc:Bounds x="70" y="95" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="55" y="131" width="66" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0e45wsb_di" bpmnElement="processEndEvent">
+        <dc:Bounds x="1159" y="95" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1143" y="131" width="68" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1ysrcte_di" bpmnElement="ServiceTask_SendDocument">
+        <dc:Bounds x="421" y="73" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0qtej8a_di" bpmnElement="UserTask_SendDocument">
+        <dc:Bounds x="791" y="73" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1xl8sqn_di" bpmnElement="SequenceFlow_1xl8sqn">
+        <di:waypoint xsi:type="dc:Point" x="891" y="113" />
+        <di:waypoint xsi:type="dc:Point" x="931" y="113" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="911" y="98" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0afx6xh_di" bpmnElement="ExclusiveGateway_DocumentWasSent" isMarkerVisible="true">
+        <dc:Bounds x="931" y="88" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="956" y="138" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0858ji8_di" bpmnElement="SequenceFlow_UserSendDocumentTaskNotRequired">
+        <di:waypoint xsi:type="dc:Point" x="726" y="138" />
+        <di:waypoint xsi:type="dc:Point" x="726" y="260" />
+        <di:waypoint xsi:type="dc:Point" x="956" y="260" />
+        <di:waypoint xsi:type="dc:Point" x="956" y="138" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="831" y="245" width="19" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0oeav4q_di" bpmnElement="SequenceFlow_UserSendDocumentTaskRequired">
+        <di:waypoint xsi:type="dc:Point" x="751" y="113" />
+        <di:waypoint xsi:type="dc:Point" x="791" y="113" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="764" y="88" width="13" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_04c7yex_di" bpmnElement="ExclusiveGateway_SendDocumentUserTaskRequired" isMarkerVisible="true">
+        <dc:Bounds x="701" y="88" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="682" y="54" width="87" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1bgxoa9_di" bpmnElement="ServiceTask_ResolveIfSendDocumentUserTaskRequired">
+        <dc:Bounds x="561" y="73" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tpiyfa_di" bpmnElement="SequenceFlow_0tpiyfa">
+        <di:waypoint xsi:type="dc:Point" x="521" y="113" />
+        <di:waypoint xsi:type="dc:Point" x="561" y="113" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="541" y="98" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1s9stz9_di" bpmnElement="SequenceFlow_1s9stz9">
+        <di:waypoint xsi:type="dc:Point" x="661" y="113" />
+        <di:waypoint xsi:type="dc:Point" x="701" y="113" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="681" y="98" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0y5ido0_di" bpmnElement="ServiceTask_0y5ido0">
+        <dc:Bounds x="141" y="73" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0bpg8lu_di" bpmnElement="SequenceFlow_0bpg8lu">
+        <di:waypoint xsi:type="dc:Point" x="106" y="113" />
+        <di:waypoint xsi:type="dc:Point" x="141" y="113" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="124" y="98" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1jageny_di" bpmnElement="SequenceFlow_1jageny">
+        <di:waypoint xsi:type="dc:Point" x="241" y="113" />
+        <di:waypoint xsi:type="dc:Point" x="282" y="113" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="262" y="98" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0cek1qi_di" bpmnElement="ServiceTask_0cek1qi">
+        <dc:Bounds x="1021" y="73" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1d1s7gf_di" bpmnElement="SequenceFlow_1d1s7gf">
+        <di:waypoint xsi:type="dc:Point" x="981" y="113" />
+        <di:waypoint xsi:type="dc:Point" x="1021" y="113" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1001" y="98" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1p8ih8e_di" bpmnElement="SequenceFlow_1p8ih8e">
+        <di:waypoint xsi:type="dc:Point" x="1121" y="113" />
+        <di:waypoint xsi:type="dc:Point" x="1159" y="113" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1140" y="98" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Task_0pnw6dl_di" bpmnElement="ServiceTask_0pnw6dl">
+        <dc:Bounds x="282" y="73" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ndp8cm_di" bpmnElement="SequenceFlow_1ndp8cm">
+        <di:waypoint xsi:type="dc:Point" x="382" y="113" />
+        <di:waypoint xsi:type="dc:Point" x="421" y="113" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="402" y="98" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

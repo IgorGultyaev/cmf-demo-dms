@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0feavzs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4">
+  <bpmn:process id="ContractDocumentTakeStorageSubProcess" name="Прием на хранение документа Договор" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Contract_TakeStorage_038y2hb" name="Старт процесса">
+      <bpmn:outgoing>SequenceFlow_1poc59d</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_Contract_TakeStorage_1pbd5pd" name="Завершение процесса">
+      <bpmn:incoming>SequenceFlow_199r25u</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ServiceTask_Contract_SwitchToTakeStorage_1wz1857" name="Установка статуса &#34;Прием на хранение&#34;" camunda:expression="${processContractDocumentStatusHandler.switchToTakeStorage(processObjectId)}">
+      <bpmn:incoming>SequenceFlow_1poc59d</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1p9o1p8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1poc59d" sourceRef="StartEvent_Contract_TakeStorage_038y2hb" targetRef="ServiceTask_Contract_SwitchToTakeStorage_1wz1857" />
+    <bpmn:sequenceFlow id="SequenceFlow_1p9o1p8" sourceRef="ServiceTask_Contract_SwitchToTakeStorage_1wz1857" targetRef="UserTask_Contract_TakeStorage_0051ai2" />
+    <bpmn:userTask id="UserTask_Contract_TakeStorage_0051ai2" name="Прием на хранение" camunda:candidateGroups="${processContractDocumentTaskAssigneeResolver.resolveTakeStorageTaskAssigneeIds(processObjectId)}">
+      <bpmn:extensionElements>
+        <camunda:taskListener expression="${processTaskListener.createTask(task,&#34;TaskType_Contract_TakeStorage&#34;,processObjectId)}" event="create" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1p9o1p8</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_199r25u</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_199r25u" sourceRef="UserTask_Contract_TakeStorage_0051ai2" targetRef="EndEvent_Contract_TakeStorage_1pbd5pd" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ContractDocumentTakeStorageSubProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Contract_TakeStorage_038y2hb">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="151" y="145" width="81" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1pbd5pd_di" bpmnElement="EndEvent_Contract_TakeStorage_1pbd5pd">
+        <dc:Bounds x="596" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="582" y="145" width="64" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1ek0b7i_di" bpmnElement="ServiceTask_Contract_SwitchToTakeStorage_1wz1857">
+        <dc:Bounds x="265" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1poc59d_di" bpmnElement="SequenceFlow_1poc59d">
+        <di:waypoint x="209" y="120" />
+        <di:waypoint x="265" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1p9o1p8_di" bpmnElement="SequenceFlow_1p9o1p8">
+        <di:waypoint x="365" y="120" />
+        <di:waypoint x="426" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0051ai2_di" bpmnElement="UserTask_Contract_TakeStorage_0051ai2">
+        <dc:Bounds x="426" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_199r25u_di" bpmnElement="SequenceFlow_199r25u">
+        <di:waypoint x="526" y="120" />
+        <di:waypoint x="596" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

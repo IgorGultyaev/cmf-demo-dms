@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.7.2">
+  <bpmn:process id="IncomingDocumentCreationSubProcess" isExecutable="true">
+    <bpmn:startEvent id="processStartEvent" name="Старт подпроцесса">
+      <bpmn:outgoing>SequenceFlow_1nn50hd</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="processEndEvent" name="Завершение подпроцесса">
+      <bpmn:incoming>SequenceFlow_0pi23ru</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1nn50hd" sourceRef="processStartEvent" targetRef="ServiceTask_InitializeDocument" />
+    <bpmn:sequenceFlow id="SequenceFlow_0pi23ru" sourceRef="ServiceTask_InitializeDocument" targetRef="processEndEvent" />
+    <bpmn:serviceTask id="ServiceTask_InitializeDocument" name="Начальная инициализация модели документа" camunda:expression="${processIncomingDocumentInitializer.create(subTypeId, companyId)}" camunda:resultVariable="processObjectId">
+      <bpmn:incoming>SequenceFlow_1nn50hd</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0pi23ru</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="IncomingDocumentCreationSubProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="processStartEvent">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="138" width="66" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1lkouen_di" bpmnElement="processEndEvent">
+        <dc:Bounds x="385" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="370" y="142" width="66" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1nn50hd_di" bpmnElement="SequenceFlow_1nn50hd">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="243" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="226" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0pi23ru_di" bpmnElement="SequenceFlow_0pi23ru">
+        <di:waypoint xsi:type="dc:Point" x="343" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="385" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="364" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0n4nzqr_di" bpmnElement="ServiceTask_InitializeDocument">
+        <dc:Bounds x="243" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

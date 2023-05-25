@@ -1,0 +1,37 @@
+{
+    "extends": "./tsconfig.compile",
+    "compilerOptions": {
+        "types": [],
+        "paths": {
+            "dms/modules/dictionary/common/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-common-ui/dist/dms/modules/dictionary/common/*"
+            ],
+            "dms/modules/dictionary/extension/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-model-extension-ui/dist/dms/modules/dictionary/extension/*"
+            ],
+            "dms/modules/task/*": [
+                "node_modules/@ctp.cmf/cmf-dms-task-ui/dist/dms/modules/task/*"
+            ],
+            "dms/modules/mainPage/*": [
+                "node_modules/@ctp.cmf/cmf-dms-mainpage-ui/dist/dms/modules/mainPage/*"
+            ],
+            "dms/modules/document/approval/*": [
+                "node_modules/@ctp.cmf/cmf-dms-document-approval-ui/dist/dms/modules/document/approval/*"
+            ],
+            "dms/modules/document/*": [
+                "node_modules/@ctp.cmf/cmf-dms-document-ui/dist/dms/modules/document/*"
+            ],
+            "dms/modules/commission/*": [
+                "node_modules/@ctp.cmf/cmf-dms-commission-ui/dist/dms/modules/commission/*"
+            ],
+            "app/*": [
+                "src/app/*"
+            ]
+        }
+    },
+    "include": [
+        "src/app/domain/metadata-gen.ts",
+        "node_modules/@croc/webclient/src/lib/.ambient.d.ts",
+        "node_modules/@croc/webclient/src/vendor/handlebars/handlebars.d.ts"
+    ]
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration scan="true" scanPeriod="30 seconds">
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <!--<logger name="ru.croc" level="TRACE" />-->
+    <!--<logger name="org.camunda.bpm.engine" level="TRACE" />-->
+
+    <!--<logger name="org.springframework.batch.core.job" level="ERROR"/>-->
+
+    <!-- Раскомментировать для отладки получаемых SQL -->
+    <!-- logger name="org.hibernate.SQL" level="debug"/ -->
+    <!-- logger name="org.hibernate.type" level="trace"/ -->
+
+    <!-- Отладка запросов, получаемых через JPASQLQuery -->
+    <!--<logger name="com.querydsl.jpa.sql.AbstractJPASQLQuery" level="debug" />-->
+
+    <!-- Раскомментировать для отладки транзакций -->
+    <!-- logger name="org.springframework.orm.jpa" level="trace" / -->
+    <!-- logger name="org.springframework.transaction.interceptor" level="trace" / -->
+    <!-- logger name="org.springframework.jdbc" level="debug" / -->
+</configuration>

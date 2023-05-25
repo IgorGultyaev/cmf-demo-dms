@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0xzx243" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4">
+  <bpmn:process id="ContractDocumentRegistrationSubProcess" name="Регистрация документа Договор" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Contract_Registration_04e3zc9" name="Старт подпроцесса">
+      <bpmn:outgoing>SequenceFlow_0bl93jb</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_Contract_Registration_0z49od6" name="Завершение подпроцесса">
+      <bpmn:incoming>SequenceFlow_04t83zh</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ServiceTask_Contract_Register_0fn84vo" name="Присвоение рег. номера" camunda:expression="${processDocumentRegistrationHandler.register(processObjectId)}">
+      <bpmn:incoming>SequenceFlow_0b53tun</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1u10kwn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Contract_SwitchToRegistration_0otioq0" name="Установка статуса регистрации" camunda:expression="${processDocumentStatusHandler.switchToRegistration(processObjectId)}">
+      <bpmn:incoming>SequenceFlow_0bl93jb</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_08ldiac</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="UserTask_Contract_Register_0u7mqr8" name="Регистрация документа" camunda:candidateGroups="${processContractDocumentTaskAssigneeResolver.resolveRegistrationTaskAssigneeIds(processObjectId)}">
+      <bpmn:extensionElements>
+        <camunda:taskListener expression="${processTaskListener.createTask(task,&#34;TaskType_Document_Register&#34;,processObjectId)}" event="create" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_08ldiac</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0b53tun</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="ServiceTask_Contract_AssignRegistrator_1sy48ve" name="Установка регистратора документа" camunda:expression="${processContractDocumentRegistrationHandler.assignRegistrator(processObjectId, registratorId)}">
+      <bpmn:incoming>SequenceFlow_1u10kwn</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_04t83zh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0bl93jb" sourceRef="StartEvent_Contract_Registration_04e3zc9" targetRef="ServiceTask_Contract_SwitchToRegistration_0otioq0" />
+    <bpmn:sequenceFlow id="SequenceFlow_0b53tun" sourceRef="UserTask_Contract_Register_0u7mqr8" targetRef="ServiceTask_Contract_Register_0fn84vo" />
+    <bpmn:sequenceFlow id="SequenceFlow_1u10kwn" sourceRef="ServiceTask_Contract_Register_0fn84vo" targetRef="ServiceTask_Contract_AssignRegistrator_1sy48ve" />
+    <bpmn:sequenceFlow id="SequenceFlow_08ldiac" sourceRef="ServiceTask_Contract_SwitchToRegistration_0otioq0" targetRef="UserTask_Contract_Register_0u7mqr8" />
+    <bpmn:sequenceFlow id="SequenceFlow_04t83zh" sourceRef="ServiceTask_Contract_AssignRegistrator_1sy48ve" targetRef="EndEvent_Contract_Registration_0z49od6" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ContractDocumentRegistrationSubProcess">
+      <bpmndi:BPMNShape id="StartEvent_04e3zc9_di" bpmnElement="StartEvent_Contract_Registration_04e3zc9">
+        <dc:Bounds x="92" y="136" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="77" y="172" width="66" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0z49od6_di" bpmnElement="EndEvent_Contract_Registration_0z49od6">
+        <dc:Bounds x="853" y="136" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="838" y="172" width="66" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0fn84vo_di" bpmnElement="ServiceTask_Contract_Register_0fn84vo">
+        <dc:Bounds x="506" y="114" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0otioq0_di" bpmnElement="ServiceTask_Contract_SwitchToRegistration_0otioq0">
+        <dc:Bounds x="184" y="114" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0u7mqr8_di" bpmnElement="UserTask_Contract_Register_0u7mqr8">
+        <dc:Bounds x="345" y="114" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1sy48ve_di" bpmnElement="ServiceTask_Contract_AssignRegistrator_1sy48ve">
+        <dc:Bounds x="667" y="114" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0bl93jb_di" bpmnElement="SequenceFlow_0bl93jb">
+        <di:waypoint x="128" y="154" />
+        <di:waypoint x="184" y="154" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0b53tun_di" bpmnElement="SequenceFlow_0b53tun">
+        <di:waypoint x="445" y="154" />
+        <di:waypoint x="506" y="154" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1u10kwn_di" bpmnElement="SequenceFlow_1u10kwn">
+        <di:waypoint x="606" y="154" />
+        <di:waypoint x="667" y="154" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_08ldiac_di" bpmnElement="SequenceFlow_08ldiac">
+        <di:waypoint x="284" y="154" />
+        <di:waypoint x="345" y="154" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_04t83zh_di" bpmnElement="SequenceFlow_04t83zh">
+        <di:waypoint x="767" y="154" />
+        <di:waypoint x="853" y="154" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

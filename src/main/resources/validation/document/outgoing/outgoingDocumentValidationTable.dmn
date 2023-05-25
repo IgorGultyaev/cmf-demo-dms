@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_1f54uj1" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="OutgoingDocumentValidationDecision_Main" name="Валидация исходящего документа">
+    <decisionTable id="decisionTable" hitPolicy="COLLECT">
+      <input id="input1" label="Команда" camunda:inputVariable="">
+        <inputExpression id="inputExpression1" typeRef="string">        <text>operation</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_1926r25" label="Состояние" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_0cktfxa" typeRef="string">        <text>mainObject.status.systemName</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_007z1xz" label="Краткое содержание" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_07mgoeh" typeRef="string">        <text><![CDATA[${"".equals(mainObject.getSummary())?null:mainObject.getSummary()}]]></text>
+</inputExpression>
+      </input>
+      <input id="InputClause_0ec8754" label="Есть основное вложение" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_0c817b2" typeRef="boolean">        <text>${mainObject.primaryAttachment().isPresent()}</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_0xqd7jg" label="Исполнитель" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_1h8mnzd" typeRef="string">        <text>mainObject.performer</text>
+</inputExpression>
+      </input>
+      <output id="output1" label="Сообщение об ошибке" name="message" typeRef="string" />
+      <output id="OutputClause_1b6qfgs" label="Описание ошибки" name="description" typeRef="string" />
+      <output id="OutputClause_0fxj1un" label="Наименование свойств" name="propertyName" typeRef="string" />
+      <output id="OutputClause_05i014y" label="Игнорируемая?" name="ignorable" typeRef="boolean" />
+      <rule id="row-596296587-2">
+        <inputEntry id="UnaryTests_1iy2uv6">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_10kupy5">        <text><![CDATA[not("DocumentStatus_Template")]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1xr5a9k">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0p9duv0">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1684vj2">        <text>null</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1910vqs">        <text><![CDATA["Поле \"Исполнитель\" должно быть заполнено."]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1e188n5">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1ku3jwz">        <text><![CDATA["performer"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0q3etds">        <text>false</text>
+</outputEntry>
+      </rule>
+      <rule id="row-419547345-1">
+        <inputEntry id="UnaryTests_0fma566">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0640wr5">        <text><![CDATA[not("DocumentStatus_Template", "DocumentStatus_Creation", "DocumentStatus_Refinement")]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1t2ta6t">        <text>null</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0ifkorb">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0zrgczc">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_02sfolv">        <text><![CDATA["Поле \"Краткое содержание\" должно быть заполнено."]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1hzw3td">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0dyzff6">        <text><![CDATA["summary"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0y2qx6k">        <text>false</text>
+</outputEntry>
+      </rule>
+      <rule id="row-419547345-2">
+        <inputEntry id="UnaryTests_1d0o9ho">        <text><![CDATA[not("dvoSave")]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_19cuihx">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0qtaqf1">        <text>null</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1jl3dt3">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0hk3pmt">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0ogfpii">        <text><![CDATA["Поле \"Краткое содержание\" должно быть заполнено."]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_16yitta">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1foa1m7">        <text><![CDATA["summary"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1sxkkh8">        <text>false</text>
+</outputEntry>
+      </rule>
+      <rule id="row-228726966-1">
+        <inputEntry id="UnaryTests_017zvqq">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0qlmeag">        <text><![CDATA[not("DocumentStatus_Template", "DocumentStatus_Creation", "DocumentStatus_Refinement")]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1hs1lou">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_04bpoyn">        <text>false</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_17219ke">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_15tp2ir">        <text><![CDATA["К документу должен быть приложен основной файл"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0cn3ghf">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_04w9qv7">        <text><![CDATA["attachment"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1is0thd">        <text>false</text>
+</outputEntry>
+      </rule>
+      <rule id="row-228726966-2">
+        <inputEntry id="UnaryTests_03mbpn3">        <text><![CDATA[not("dvoSave")]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1uidqzt">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0vdb109">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1u9pgkt">        <text>false</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_083npd4">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_10o3ubf">        <text><![CDATA["К документу должен быть приложен основной файл"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1kwclbn">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1o0a4bc">        <text><![CDATA["attachment"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_05oig4b">        <text>false</text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

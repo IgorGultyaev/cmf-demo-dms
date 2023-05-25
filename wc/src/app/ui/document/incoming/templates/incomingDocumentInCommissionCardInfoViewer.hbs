@@ -1,0 +1,23 @@
+<div class="row outer-row">
+    <div class="col-lg-4">
+        {{peContainer editors.correspondentExternal columnsRatio="3:9"}}
+    </div>
+    <div class="col-lg-3">
+        {{peContainer editors.attachment columnsRatio="3:9"}}
+    </div>
+    <div class="col-lg-4">
+        {{peContainer editors.permission columnsRatio="3:9"}}
+    </div>
+</div>
+<div class="row outer-row">
+    <div class="col-lg-12">
+        {{#observe editors.summary tag="div"}}
+            <div class="row x-pe-container" id="{{this.options.name}}">
+                <label for=this.options.name class="col-md-3 col-lg-1 x-pe-label">{{../viewModel.meta.props.summary.descr}}</label>
+                <div class="col-md-9 col-lg-11 x-pe" id="{{push-id}}">
+                    {{pe name=this.options.name viewModel=../viewModel target=":pop-id"}}
+                </div>
+            </div>
+        {{/observe}}
+    </div>
+</div>

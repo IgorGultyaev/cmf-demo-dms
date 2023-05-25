@@ -1,0 +1,152 @@
+@import "fonts.less";
+@import ".variables.less";
+@import "@croc/webclient/dist/lib/ui/styles/.mixins.less";
+@import "theme-cmf.less";
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: @color-tone;
+}
+
+.x-area {
+  background-color: @color-content;
+  .box-shadow(0 0 3px rgba(0,0,0,.15));
+
+  &-no-shadow {
+    .box-shadow(none);
+  }
+}
+
+.clearfloat {
+	clear: both;
+}
+
+.footer-stub {
+	height: 50px;
+}
+
+.container {
+	@media (max-width: @screen-xs-max) {
+		padding: 0;
+	}
+}
+
+// +Info Icon
+.infoicon {
+	padding-left: 5px;
+}
+
+.infoicon .x-icon {
+	vertical-align: super;
+	font-size: 8pt;
+}
+
+.iconalert {
+    color: red;
+}
+
+.infoicon2 .x-icon {
+    color: @info-icon-color;
+}
+
+//TODO: подумать, как сделать лучше
+a.x-cmd-link.infoicon2 {
+    text-decoration: none;
+}
+a.x-cmd-link:hover.infoicon2 {
+    text-decoration: none;
+}
+
+// -
+
+// +InfoView
+table.infoviewtable th {
+	padding-right: 10px;
+}
+
+table.infoviewtable th:after {
+    content: "\003A";
+}
+// -
+
+// + DateTime
+.dynamicDateWidth {
+   .x-pe-datetime {
+    width: 100%;
+    min-width: inherit;
+  }
+}
+
+.x-pe-dateonly .x-pe-datetime {
+    width: 155px;
+    min-width: 155px;
+}
+
+.x-pe-dateright .x-pe-datetime {
+    float: right;
+}
+// -
+
+// + Label
+.x-pe-labelright .x-pe-label {
+    text-align: right;
+}
+// -
+
+// +Настройка "рамок" под разные разрешения. 
+// Для каждого из указанных ниже разрешений создаётся @media указанием размера рамки контейнера меньше этого разрешения на 30px.
+// Внимание!!! Генерация будет проведена в порядке указания разрешений. Указывать надо от меньшего к большему.
+.generate-medias(1200px 1280px 1366px 1440px 1600px 1680px 1920px 2048px);
+
+.generate-medias(@resolutions, @i: 1) when (@i <= length(@resolutions)) {
+    @media (min-width: extract(@resolutions, @i)) {
+      .container {
+        width:(extract(@resolutions, @i) - 30px);
+      }
+    }
+    .generate-medias(@resolutions, (@i + 1));
+}
+
+.not-null-without-star .x-pe-label--notnull:after {
+  content: none;
+}
+
+#sysMenu {
+  margin-right: 0px;
+}
+
+#areasMenu {
+  margin-left: 0px;
+}
+
+// -
+
+.x-sys-menu {
+    > .x-popupview.createMenuPopup {
+        width: auto;
+
+        > .x-popupview-content {
+            min-height: auto;
+        }
+    }
+}
+
+// + Checkbox  в листе
+.slick-cell {
+    > .listcheckbox {
+        text-align: left;
+        > input[type='checkbox'] {
+            color: lighten(@color-text, 5%);
+        }
+    }
+}
+// -
+
+// + Контейнер строк, в котором будут ещё строки.
+.row.outer-row {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+// -

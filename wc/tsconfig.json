@@ -1,0 +1,126 @@
+{
+    "extends": "./tsconfig.compile",
+    "compilerOptions": {
+        "paths": {
+            "app/*": [
+                "src/app/*"
+            ],
+            "cmf/modules/dashboard/*": [
+                "node_modules/@ctp.cmf/cmf-dashboard-ui/src/cmf/modules/dashboard/*"
+            ],
+            "cmf/modules/calendar/*": [
+                "node_modules/@ctp.cmf/cmf-calendar-ui/src/cmf/modules/calendar/*"
+            ],
+            "cmf/*": [
+                "node_modules/@ctp.cmf/cmf-ui/src/cmf/*"
+            ],
+            "dms/modules/icons/*": [
+                "node_modules/@ctp.cmf/cmf-dms-appicon-ui/src/dms/modules/icons/*"
+            ],
+            "dms/modules/bookmarks/*": [
+                "node_modules/@ctp.cmf/cmf-dms-bookmarks-ui/src/dms/modules/bookmarks/*"
+            ],
+            "dms/modules/info/*": [
+                "node_modules/@ctp.cmf/cmf-dms-info-ui/src/dms/modules/info/*"
+            ],
+            "dms/modules/dictionary/extension/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-model-extension-ui/src/dms/modules/dictionary/extension/*"
+            ],
+            "dms/modules/dictionary/common/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-common-ui/src/dms/modules/dictionary/common/*"
+            ],
+            "dms/modules/dictionary/security/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-security-ui/src/dms/modules/dictionary/security/*"
+            ],
+            "dms/modules/dictionary/user/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-user-ui/src/dms/modules/dictionary/user/*"
+            ],
+            "dms/modules/dictionary/employee/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-employee-ui/src/dms/modules/dictionary/employee/*"
+            ],
+            "dms/modules/dictionary/positionDescription/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-position-description-ui/src/dms/modules/dictionary/positionDescription/*"
+            ],
+            "dms/modules/dictionary/role/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-role-ui/src/dms/modules/dictionary/role/*"
+            ],
+            "dms/modules/dictionary/orgstructure/*": [
+                "node_modules/@ctp.cmf/cmf-dms-dictionary-orgstructure-ui/src/dms/modules/dictionary/orgstructure/*"
+            ],
+            "dms/modules/security/*": [
+                "node_modules/@ctp.cmf/cmf-dms-security-ui/src/dms/modules/security/*"
+            ],
+            "dms/modules/task/*": [
+                "node_modules/@ctp.cmf/cmf-dms-task-ui/src/dms/modules/task/*"
+            ],
+            "dms/modules/mainPage/*": [
+                "node_modules/@ctp.cmf/cmf-dms-mainpage-ui/src/dms/modules/mainPage/*"
+            ],
+            "dms/modules/document/regnumber/*": [
+                "node_modules/@ctp.cmf/cmf-dms-document-regnumber-ui/src/dms/modules/document/regnumber/*"
+            ],
+            "dms/modules/report/*": [
+                "node_modules/@ctp.cmf/cmf-dms-report-ui/src/dms/modules/report/*"
+            ],
+            "dms/modules/comment/*": [
+                "node_modules/@ctp.cmf/cmf-dms-comment-ui/src/dms/modules/comment/*"
+            ],
+            "dms/modules/relation/*": [
+                "node_modules/@ctp.cmf/cmf-dms-relation-ui/src/dms/modules/relation/*"
+            ],
+            "dms/modules/common/*": [
+                "node_modules/@ctp.cmf/cmf-dms-common-ui/src/dms/modules/common/*"
+            ],
+            "dms/modules/document/approval/*": [
+                "node_modules/@ctp.cmf/cmf-dms-document-approval-ui/src/dms/modules/document/approval/*"
+            ],
+            "dms/modules/document/process/*": [
+                "node_modules/@ctp.cmf/cmf-dms-document-process-ui/src/dms/modules/document/process/*"
+            ],
+            "dms/modules/document/*": [
+                "node_modules/@ctp.cmf/cmf-dms-document-ui/src/dms/modules/document/*"
+            ],
+            "dms/modules/commission/*": [
+                "node_modules/@ctp.cmf/cmf-dms-commission-ui/src/dms/modules/commission/*"
+            ],
+            "dms/modules/search/*": [
+                "node_modules/@ctp.cmf/cmf-dms-search-ui/src/dms/modules/search/*"
+            ],
+            "lib/*": [
+                "node_modules/@croc/webclient/src/lib/*"
+            ],
+            "modules/*": [
+                "node_modules/@croc/webclient/src/modules/*"
+            ],
+            "vendor/*": [
+                "node_modules/@croc/webclient/dist/vendor/*"
+            ],
+            "core": [
+                "node_modules/@croc/webclient/src/lib/core"
+            ],
+            "moment": [
+                "node_modules/@croc/webclient/dist/vendor/moment/moment"
+            ],
+            "Draggable": [
+                "node_modules/@shopify/draggable/lib/es5/draggable.bundle.legacy.js"
+            ],
+            "chartjs": [
+                "node_modules/chart.js/dist/Chart.js"
+            ],
+            "pdfjs-dist/build/pdf": [
+                "node_modules/@ctp.cmf/cmf-ui/dist/cmf/vendor/pdfjs-dist/build/pdf"
+            ],
+            "bootstrap-year-calendar/*": [
+                "node_modules/@ctp.cmf/bootstrap-year-calendar/*"
+            ],
+            "benchmark": [
+                "node_modules/benchmark",
+                "node_modules/@types/benchmark/index"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/.*.ts"
+    ]
+}

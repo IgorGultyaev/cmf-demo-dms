@@ -1,0 +1,8 @@
+<div class="row">
+    <div class="col-xs-12">
+        {{#borderedEditor title=editor.options.resources.attachmentTitle}}
+            {{part name="ObjectList:DocumentAttachment" documentId=this.viewModel.document.id uow=this.viewModel.uow
+                   checkout=true autoLoad=true presenterOptions=(object menuRowCssClass="x-menu-bar")}}
+        {{/borderedEditor}}
+    </div>
+</div>

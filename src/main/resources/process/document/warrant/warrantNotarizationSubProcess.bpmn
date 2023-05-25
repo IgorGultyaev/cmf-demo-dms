@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.7.2">
+  <bpmn:process id="WarrantNotarizationSubProcess" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_0byrmrd</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_171apzd">
+      <bpmn:incoming>SequenceFlow_0fcdl2z</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_NotraizationNotRequired</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_07wketf</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1v4w65x">
+      <bpmn:incoming>SequenceFlow_1acgvtq</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_NotraizationNotRequired</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0o6mgcp</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0byrmrd" sourceRef="StartEvent_1" targetRef="ServiceTask_isNotraizationRequired" />
+    <bpmn:sequenceFlow id="SequenceFlow_0fcdl2z" sourceRef="ServiceTask_isNotraizationRequired" targetRef="ExclusiveGateway_171apzd" />
+    <bpmn:sequenceFlow id="SequenceFlow_1acgvtq" sourceRef="Task_0lnqbhl" targetRef="ExclusiveGateway_1v4w65x" />
+    <bpmn:sequenceFlow id="SequenceFlow_NotraizationNotRequired" name="Нет" sourceRef="ExclusiveGateway_171apzd" targetRef="ExclusiveGateway_1v4w65x">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!notraizationRequired}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="ServiceTask_isNotraizationRequired" name="Требуется нотариальное заверение?" camunda:expression="${processWarrantNotarizationHandler.isNotarizationRequired(processObjectId)}" camunda:resultVariable="notraizationRequired">
+      <bpmn:incoming>SequenceFlow_0byrmrd</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0fcdl2z</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Task_0lnqbhl" name="Нотариальное заверение" camunda:candidateUsers="${documentTaskAssigneeResolver.resolveRegistrationTaskAssigneeIds(processObjectId)}">
+      <bpmn:extensionElements>
+        <camunda:taskListener expression="${processTaskListener.createTask(task,&#34;TaskType_Warrant_Notarize&#34;,processObjectId)}" event="create" />
+        <camunda:taskListener expression="${processTaskListener.deleteTask(task)}" event="delete" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1y8kego</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1acgvtq</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_07wketf" name="Да" sourceRef="ExclusiveGateway_171apzd" targetRef="Task_0ms8gus" />
+    <bpmn:sequenceFlow id="SequenceFlow_1y8kego" sourceRef="Task_0ms8gus" targetRef="Task_0lnqbhl" />
+    <bpmn:endEvent id="EndEvent_1g20lel">
+      <bpmn:incoming>SequenceFlow_0o6mgcp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0o6mgcp" sourceRef="ExclusiveGateway_1v4w65x" targetRef="EndEvent_1g20lel" />
+    <bpmn:serviceTask id="Task_0ms8gus" name="Установка состояния &#34;Нотариальное заверение&#34;" camunda:expression="${processWarrantStatusHandler.switchToNotarization(processObjectId)}">
+      <bpmn:incoming>SequenceFlow_07wketf</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1y8kego</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="WarrantNotarizationSubProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_171apzd_di" bpmnElement="ExclusiveGateway_171apzd" isMarkerVisible="true">
+        <dc:Bounds x="372" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="397" y="149" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1v4w65x_di" bpmnElement="ExclusiveGateway_1v4w65x" isMarkerVisible="true">
+        <dc:Bounds x="764" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="744" y="149" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0byrmrd_di" bpmnElement="SequenceFlow_0byrmrd">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="236" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="222.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0fcdl2z_di" bpmnElement="SequenceFlow_0fcdl2z">
+        <di:waypoint xsi:type="dc:Point" x="336" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="372" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="354" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1acgvtq_di" bpmnElement="SequenceFlow_1acgvtq">
+        <di:waypoint xsi:type="dc:Point" x="742" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="764" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="708" y="99" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ek822g_di" bpmnElement="SequenceFlow_NotraizationNotRequired">
+        <di:waypoint xsi:type="dc:Point" x="397" y="145" />
+        <di:waypoint xsi:type="dc:Point" x="397" y="239" />
+        <di:waypoint xsi:type="dc:Point" x="789" y="239" />
+        <di:waypoint xsi:type="dc:Point" x="789" y="145" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="585" y="218" width="19" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0oblz0b_di" bpmnElement="ServiceTask_isNotraizationRequired">
+        <dc:Bounds x="236" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0ootm8e_di" bpmnElement="Task_0lnqbhl">
+        <dc:Bounds x="642" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_07wketf_di" bpmnElement="SequenceFlow_07wketf">
+        <di:waypoint xsi:type="dc:Point" x="422" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="480" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="445" y="99" width="13" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1y8kego_di" bpmnElement="SequenceFlow_1y8kego">
+        <di:waypoint xsi:type="dc:Point" x="580" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="642" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="566" y="99" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1g20lel_di" bpmnElement="EndEvent_1g20lel">
+        <dc:Bounds x="847" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="865" y="142" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0o6mgcp_di" bpmnElement="SequenceFlow_0o6mgcp">
+        <di:waypoint xsi:type="dc:Point" x="814" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="847" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="830.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1v2g8k3_di" bpmnElement="Task_0ms8gus">
+        <dc:Bounds x="480" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

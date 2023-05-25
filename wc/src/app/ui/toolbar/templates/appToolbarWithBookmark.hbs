@@ -1,0 +1,51 @@
+<div class="x-app-navbar noprint" role="navigation">
+    <a class="x-app-navbar-brand pull-left hidden-xs hidden-sm" href="{{xconfig "root"}}" {{command-bind
+            commands.NavigateHome}}>
+        <img class="pull-left hidden-xs hidden-sm logo" src='{{xconfig "root"}}client/content/images/croc.png'>
+        {{xconfig "appName"}}
+    </a>
+    <ul class="x-app-navbar-nav x-sys-menu pull-left" id="sysMenu">
+        {{#if sysMenu}}
+            {{render sysMenu target="#sysMenu" trackStatus=true}}
+        {{/if}}
+    </ul>
+    <div class="pull-left hidden-xs" id="areasMenu">
+        {{#if navMenuPresenter}}
+            {{render navMenuPresenter target="#areasMenu" trackStatus=true}}
+        {{/if}}
+    </div>
+    {{#observe this}}
+        {{#if searchInputIsVisible}}
+            <div class="search-box" id="search-box">
+                {{render searchPart target="#search-box"}}
+            </div>
+        {{/if}}
+    {{/observe}}
+    <ul class="x-app-navbar-nav pull-right">
+        <li id="add-bookmark">
+            {{#if bookmarkButton}}
+                {{render bookmarkButton target="#add-bookmark"}}
+            {{/if}}
+        </li>
+        <li id="clientExtDownload">
+            {{#if clientExtDownloadButton}}
+                {{render clientExtDownloadButton target="#clientExtDownload"}}
+            {{/if}}
+        </li>
+        <li id="langMenu" class="x-lang-menu">
+            {{#if langMenu}}
+                {{render langMenu target="#langMenu"}}
+            {{/if}}
+        </li>
+        <li id="authMenu">
+            {{#if authMenu}}
+                {{render authMenu target="#authMenu"}}
+            {{/if}}
+        </li>
+        <li id="onlineBeacon">
+            {{#if onlineBeacon}}
+                {{render onlineBeacon target="#onlineBeacon"}}
+            {{/if}}
+        </li>
+    </ul>
+</div>

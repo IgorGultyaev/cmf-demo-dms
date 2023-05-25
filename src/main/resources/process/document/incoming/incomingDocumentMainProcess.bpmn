@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.8.0">
+  <bpmn:process id="IncomingDocumentMainProcess" isExecutable="true">
+    <bpmn:startEvent id="processStartEvent" name="Старт процесса">
+      <bpmn:outgoing>SequenceFlow_02ksczs</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="processEndEvent" name="Завершение процесса">
+      <bpmn:incoming>SequenceFlow_0kqt6z8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="CallActivity_DocumentCreation" name="Создание документа. Инициализация процесса." calledElement="IncomingDocumentCreationSubProcess">
+      <bpmn:extensionElements>
+        <camunda:in source="subTypeId" target="subTypeId" />
+        <camunda:in source="companyId" target="companyId" />
+        <camunda:out source="processObjectId" target="processObjectId" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_02ksczs</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0wr4h4k</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="SequenceFlow_02ksczs" sourceRef="processStartEvent" targetRef="CallActivity_DocumentCreation" />
+    <bpmn:callActivity id="CallActivity_Registration" name="Регистрация" calledElement="IncomingDocumentRegistrationSubProcess">
+      <bpmn:extensionElements>
+        <camunda:in source="processObjectId" target="processObjectId" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0wr4h4k</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0gwf13d</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="SequenceFlow_0wr4h4k" sourceRef="CallActivity_DocumentCreation" targetRef="CallActivity_Registration" />
+    <bpmn:callActivity id="CallActivity_Scanning" name="Сканирование" calledElement="incomingDocumentScanningSubProcess">
+      <bpmn:extensionElements>
+        <camunda:in source="processObjectId" target="processObjectId" />
+        <camunda:out sourceExpression="${null}" target="commissionId" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0gwf13d</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_13e11oe</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="SequenceFlow_0gwf13d" sourceRef="CallActivity_Registration" targetRef="CallActivity_Scanning" />
+    <bpmn:callActivity id="CallActivity_Perform" name="Исполнение" calledElement="incomingDocumentExecutionSubProcess">
+      <bpmn:extensionElements>
+        <camunda:in source="processObjectId" target="processObjectId" />
+        <camunda:in source="commissionId" target="commissionId" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0s7khiw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1syjtws</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="CallActivity_Complete" name="Завершение исполнения" calledElement="incomingDocumentCompletionSubProcess">
+      <bpmn:extensionElements>
+        <camunda:in source="processObjectId" target="processObjectId" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1syjtws</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1tvj4qm</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="SequenceFlow_1syjtws" sourceRef="CallActivity_Perform" targetRef="CallActivity_Complete" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0hn0gci">
+      <bpmn:incoming>SequenceFlow_13e11oe</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_15nx5i8</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0s7khiw</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_13e11oe" sourceRef="CallActivity_Scanning" targetRef="ExclusiveGateway_0hn0gci" />
+    <bpmn:sequenceFlow id="SequenceFlow_0s7khiw" sourceRef="ExclusiveGateway_0hn0gci" targetRef="CallActivity_Perform" />
+    <bpmn:sequenceFlow id="SequenceFlow_15nx5i8" sourceRef="StartEvent_0cqkdfr" targetRef="ExclusiveGateway_0hn0gci" />
+    <bpmn:startEvent id="StartEvent_0cqkdfr">
+      <bpmn:outgoing>SequenceFlow_15nx5i8</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_1uy47sv" />
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_08r70he">
+      <bpmn:incoming>SequenceFlow_1wyrxvl</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1tvj4qm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0kqt6z8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1wyrxvl" sourceRef="CallActivity_Revoke" targetRef="ExclusiveGateway_08r70he" />
+    <bpmn:sequenceFlow id="SequenceFlow_1tvj4qm" sourceRef="CallActivity_Complete" targetRef="ExclusiveGateway_08r70he" />
+    <bpmn:sequenceFlow id="SequenceFlow_0kqt6z8" sourceRef="ExclusiveGateway_08r70he" targetRef="processEndEvent" />
+    <bpmn:callActivity id="CallActivity_Revoke" name="Аннулирование" calledElement="incomingDocumentCancellationProcess">
+      <bpmn:extensionElements>
+        <camunda:in source="processObjectId" target="processObjectId" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1nt18je</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1wyrxvl</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:boundaryEvent id="BoundaryEvent_Revoke" attachedToRef="CallActivity_Registration">
+      <bpmn:outgoing>SequenceFlow_1nt18je</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_0gtvv4a" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1nt18je" sourceRef="BoundaryEvent_Revoke" targetRef="CallActivity_Revoke" />
+  </bpmn:process>
+  <bpmn:message id="Message_1uy47sv" name="MESSAGE_INCOMING_DOCUMENT_START_BY_COMMISSION" />
+  <bpmn:message id="Message_10pikw3" name="MESSAGE_DOCUMENT_CANCEL_&#60;ID документа&#62;" />
+  <bpmn:message id="Message_0gtvv4a" name="MESSAGE_DOCUMENT_CANCEL_${processObjectId}" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="IncomingDocumentMainProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="processStartEvent">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="151" y="138" width="81" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0odfb3s_di" bpmnElement="processEndEvent">
+        <dc:Bounds x="1202" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1188" y="142" width="64" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_0lojylb_di" bpmnElement="CallActivity_DocumentCreation">
+        <dc:Bounds x="266" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_02ksczs_di" bpmnElement="SequenceFlow_02ksczs">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="266" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="237.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_138q9c3_di" bpmnElement="CallActivity_Registration">
+        <dc:Bounds x="422" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0wr4h4k_di" bpmnElement="SequenceFlow_0wr4h4k">
+        <di:waypoint xsi:type="dc:Point" x="366" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="422" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="394" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_1agqe9v_di" bpmnElement="CallActivity_Scanning">
+        <dc:Bounds x="569" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0gwf13d_di" bpmnElement="SequenceFlow_0gwf13d">
+        <di:waypoint xsi:type="dc:Point" x="522" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="569" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="545.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_195u1vx_di" bpmnElement="CallActivity_Perform">
+        <dc:Bounds x="797" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_13r09pz_di" bpmnElement="CallActivity_Complete">
+        <dc:Bounds x="927" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1syjtws_di" bpmnElement="SequenceFlow_1syjtws">
+        <di:waypoint xsi:type="dc:Point" x="897" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="927" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="867" y="99" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0hn0gci_di" bpmnElement="ExclusiveGateway_0hn0gci" isMarkerVisible="true">
+        <dc:Bounds x="706" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="731" y="149" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_13e11oe_di" bpmnElement="SequenceFlow_13e11oe">
+        <di:waypoint xsi:type="dc:Point" x="669" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="706" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="687.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0s7khiw_di" bpmnElement="SequenceFlow_0s7khiw">
+        <di:waypoint xsi:type="dc:Point" x="756" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="797" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="776.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_15nx5i8_di" bpmnElement="SequenceFlow_15nx5i8">
+        <di:waypoint xsi:type="dc:Point" x="209" y="279" />
+        <di:waypoint xsi:type="dc:Point" x="731" y="279" />
+        <di:waypoint xsi:type="dc:Point" x="731" y="145" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="470" y="258" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_05koauz_di" bpmnElement="StartEvent_0cqkdfr">
+        <dc:Bounds x="173" y="261" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="191" y="301" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_08r70he_di" bpmnElement="ExclusiveGateway_08r70he" isMarkerVisible="true">
+        <dc:Bounds x="1087" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1112" y="149" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1wyrxvl_di" bpmnElement="SequenceFlow_1wyrxvl">
+        <di:waypoint xsi:type="dc:Point" x="771" y="-44" />
+        <di:waypoint xsi:type="dc:Point" x="1112" y="-44" />
+        <di:waypoint xsi:type="dc:Point" x="1112" y="95" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="941.5" y="-65" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1tvj4qm_di" bpmnElement="SequenceFlow_1tvj4qm">
+        <di:waypoint xsi:type="dc:Point" x="1027" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="1087" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1057" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0kqt6z8_di" bpmnElement="SequenceFlow_0kqt6z8">
+        <di:waypoint xsi:type="dc:Point" x="1137" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="1202" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1169.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_18378nl_di" bpmnElement="CallActivity_Revoke">
+        <dc:Bounds x="671" y="-84" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryEvent_13a2cwc_di" bpmnElement="BoundaryEvent_Revoke">
+        <dc:Bounds x="476" y="62" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="494" y="102" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1nt18je_di" bpmnElement="SequenceFlow_1nt18je">
+        <di:waypoint xsi:type="dc:Point" x="494" y="62" />
+        <di:waypoint xsi:type="dc:Point" x="494" y="-44" />
+        <di:waypoint xsi:type="dc:Point" x="671" y="-44" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="509" y="3" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

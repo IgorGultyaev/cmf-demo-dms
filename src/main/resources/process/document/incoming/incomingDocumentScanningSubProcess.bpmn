@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.8.0">
+  <bpmn:process id="incomingDocumentScanningSubProcess" name="Сканирование" isExecutable="true">
+    <bpmn:startEvent id="processStartEvent">
+      <bpmn:outgoing>SequenceFlow_0n3g2xs</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_ScanningRequired">
+      <bpmn:incoming>SequenceFlow_1oiej1k</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0emwbqb</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_009r927</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_DocumentScanned">
+      <bpmn:incoming>SequenceFlow_05gwwtv</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_009r927</bpmn:incoming>
+      <bpmn:outgoing>processEndEvent</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="EndEvent_19buczc">
+      <bpmn:incoming>processEndEvent</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0n3g2xs" sourceRef="processStartEvent" targetRef="ServiceTask_ScanningRequired" />
+    <bpmn:sequenceFlow id="SequenceFlow_1oiej1k" sourceRef="ServiceTask_ScanningRequired" targetRef="ExclusiveGateway_ScanningRequired" />
+    <bpmn:sequenceFlow id="SequenceFlow_0emwbqb" name="Да" sourceRef="ExclusiveGateway_ScanningRequired" targetRef="ServiceTask_SwitchToScanning">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${scanningRequired}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0p65tj4" sourceRef="ServiceTask_SwitchToScanning" targetRef="UserTask_AttachOriginals" />
+    <bpmn:sequenceFlow id="SequenceFlow_05gwwtv" sourceRef="UserTask_AttachOriginals" targetRef="ExclusiveGateway_DocumentScanned" />
+    <bpmn:sequenceFlow id="processEndEvent" sourceRef="ExclusiveGateway_DocumentScanned" targetRef="EndEvent_19buczc" />
+    <bpmn:sequenceFlow id="SequenceFlow_009r927" name="Нет" sourceRef="ExclusiveGateway_ScanningRequired" targetRef="ExclusiveGateway_DocumentScanned">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!scanningRequired}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="ServiceTask_ScanningRequired" name="Требуется сканирование" camunda:expression="${processIncomingDocumentScanningHandler.checkIfScanningRequired(processObjectId)}" camunda:resultVariable="scanningRequired">
+      <bpmn:incoming>SequenceFlow_0n3g2xs</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1oiej1k</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_SwitchToScanning" name="Установка состояния &#34;Сканирование&#34;" camunda:expression="${processDocumentStatusHandler.switchToScanning(processObjectId)}">
+      <bpmn:incoming>SequenceFlow_0emwbqb</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0p65tj4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="UserTask_AttachOriginals" name="На прикрепление подлинника" camunda:candidateUsers="${processIncomingDocumentTaskAssigneeResolver.resolveScanningTaskAssigneeIds(processObjectId)}">
+      <bpmn:extensionElements>
+        <camunda:taskListener expression="${processTaskListener.createTask(task,&#34;TaskType_Document_Attach_Original&#34;,processObjectId)}" event="create" />
+        <camunda:taskListener expression="${processTaskListener.deleteTask(task)}" event="delete" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0p65tj4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_05gwwtv</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="incomingDocumentScanningSubProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="processStartEvent">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_13kgcou_di" bpmnElement="ExclusiveGateway_ScanningRequired" isMarkerVisible="true">
+        <dc:Bounds x="421" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="446" y="149" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0enn9d6_di" bpmnElement="ExclusiveGateway_DocumentScanned" isMarkerVisible="true">
+        <dc:Bounds x="842" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="867" y="149" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_19buczc_di" bpmnElement="EndEvent_19buczc">
+        <dc:Bounds x="932" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="950" y="142" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0n3g2xs_di" bpmnElement="SequenceFlow_0n3g2xs">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="274" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="241.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1oiej1k_di" bpmnElement="SequenceFlow_1oiej1k">
+        <di:waypoint xsi:type="dc:Point" x="374" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="421" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="397.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0emwbqb_di" bpmnElement="SequenceFlow_0emwbqb">
+        <di:waypoint xsi:type="dc:Point" x="471" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="525" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="492" y="99" width="13" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0p65tj4_di" bpmnElement="SequenceFlow_0p65tj4">
+        <di:waypoint xsi:type="dc:Point" x="625" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="682" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="653.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_05gwwtv_di" bpmnElement="SequenceFlow_05gwwtv">
+        <di:waypoint xsi:type="dc:Point" x="782" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="842" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="812" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_19ha1uv_di" bpmnElement="processEndEvent">
+        <di:waypoint xsi:type="dc:Point" x="892" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="932" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="912" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_009r927_di" bpmnElement="SequenceFlow_009r927">
+        <di:waypoint xsi:type="dc:Point" x="446" y="145" />
+        <di:waypoint xsi:type="dc:Point" x="446" y="244" />
+        <di:waypoint xsi:type="dc:Point" x="867" y="244" />
+        <di:waypoint xsi:type="dc:Point" x="867" y="145" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="647" y="223" width="19" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0str295_di" bpmnElement="ServiceTask_ScanningRequired">
+        <dc:Bounds x="274" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1uc0bdo_di" bpmnElement="ServiceTask_SwitchToScanning">
+        <dc:Bounds x="525" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1sj62te_di" bpmnElement="UserTask_AttachOriginals">
+        <dc:Bounds x="682" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

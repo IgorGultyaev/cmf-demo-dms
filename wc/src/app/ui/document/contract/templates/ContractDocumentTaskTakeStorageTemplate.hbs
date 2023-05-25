@@ -1,0 +1,107 @@
+<div class="row">
+    <div class="col-lg-5">
+        <div class="gap">
+            {{peContainer editors.organization}}
+            <div class="not-null-without-star">
+                {{peContainer editors.documentType}}
+            </div>
+            {{peContainer editors.documentKind}}
+            {{peContainer editors.summary}}
+            {{peContainer editors.cost}}
+            {{peContainer editors.currency}}
+            {{peContainer editors.contractors}}
+            {{peContainer editors.sheetsAmount}}
+            {{peContainer editors.annexSheetsAmount}}
+            {{peContainer editors.notes}}
+            <div class="not-null-without-star">
+                {{peContainer editors.permission}}
+            </div>
+            {{peContainer editors.nomenclatureCase}}
+            {{peContainer editors.contractState}}
+        </div>
+    </div>
+
+    <div class="col-lg-2">
+    </div>
+
+    <div class="col-lg-5">
+        <div class="row">
+            <div class="col-xs-6 not-null-without-star">
+                {{peContainer editors.urgent columnsRatio="8:4"}}
+            </div>
+            <div class="col-xs-6 not-null-without-star">
+                {{peContainer editors.protocolDisagreements columnsRatio="8:4"}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 not-null-without-star">
+                {{peContainer editors.paper columnsRatio="8:4"}}
+            </div>
+            <div class="col-xs-6 not-null-without-star">
+                {{peContainer editors.protocolApproveDisagreements columnsRatio="8:4"}}
+            </div>
+        </div>
+        {{peContainer editors.curator}}
+        {{peContainer editors.performer}}
+        {{peContainer editors.signatory}}
+        {{peContainer editors.warrantName}}
+        {{peContainer editors.signingDate}}
+        {{peContainer editors.agreementDate}}
+        <div class="row">
+            <label class="col-sm-4 x-pe-label">{{format 'part.task.contract.durationDatesInterval'
+                                                        formatter=editor.options.['resourcesFormatter']}}</label>
+            <div class="col-sm-8">
+                <div class="row x-pe-container">
+                    <div class="col-xs-3" style="padding-left: 0px;">
+                        {{pe name="durationFromDate"
+                             viewModel=viewModel
+                             tag="div"
+                             readOnly=true}}
+                    </div>
+                    <div class="col-xs-1 ">
+                        {{#if (or viewModel.durationFromDate
+                                      or viewModel.durationToDate)}}
+                            <div class="x-pe-viewonly">
+                                -
+                            </div>
+                        {{/if}}
+                    </div>
+                    <div class="col-xs-3" style="padding-left: 0px;">
+                        {{pe name="durationToDate"
+                             viewModel=viewModel
+                             tag="div"
+                             readOnly=true}}
+                    </div>
+                    <div class="col-xs-5">
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{peContainer editors.registrator}}
+        <div class="row">
+            <div class="col-xs-6 not-null-without-star">
+                {{peContainer editors.dealWithInterest columnsRatio="8:4"}}
+            </div>
+            <div class="col-xs-6 not-null-without-star">
+                {{peContainer editors.propertyTransfer columnsRatio="8:4"}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 not-null-without-star">
+                {{peContainer editors.greatlyDeal columnsRatio="8:4"}}
+            </div>
+            <div class="col-xs-6 not-null-without-star">
+                {{peContainer editors.officialRegistration columnsRatio="8:4"}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 not-null-without-star">
+                {{peContainer editors.bigDeal columnsRatio="8:4"}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {{peContainer editors.attachment}}
+</div>

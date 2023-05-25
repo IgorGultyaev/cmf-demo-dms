@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1ocpxhv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4">
+  <bpmn:process id="ContractDocumentRevokeSubProcess" name="Процесс аннулирования документа" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_0qolmm2" name="Старт процесса">
+      <bpmn:outgoing>SequenceFlow_0fno482</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_0jhobrj" name="Завершение процесса">
+      <bpmn:incoming>SequenceFlow_0cz61cu</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ServiceTask_Contract_SwitchToRevoke_1hrzrzp" name="Установка статуса &#34;Аннулирован&#34;" camunda:expression="${processContractDocumentStatusHandler.switchToRevoked(processObjectId)}">
+      <bpmn:incoming>SequenceFlow_0fno482</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0cz61cu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0fno482" sourceRef="StartEvent_0qolmm2" targetRef="ServiceTask_Contract_SwitchToRevoke_1hrzrzp" />
+    <bpmn:sequenceFlow id="SequenceFlow_0cz61cu" sourceRef="ServiceTask_Contract_SwitchToRevoke_1hrzrzp" targetRef="EndEvent_0jhobrj" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ContractDocumentRevokeSubProcess">
+      <bpmndi:BPMNShape id="StartEvent_0qolmm2_di" bpmnElement="StartEvent_0qolmm2">
+        <dc:Bounds x="78" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="57" y="143" width="81" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0jhobrj_di" bpmnElement="EndEvent_0jhobrj">
+        <dc:Bounds x="334" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="320" y="143" width="64" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1hrzrzp_di" bpmnElement="ServiceTask_Contract_SwitchToRevoke_1hrzrzp">
+        <dc:Bounds x="174" y="78" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0fno482_di" bpmnElement="SequenceFlow_0fno482">
+        <di:waypoint x="114" y="118" />
+        <di:waypoint x="174" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0cz61cu_di" bpmnElement="SequenceFlow_0cz61cu">
+        <di:waypoint x="274" y="118" />
+        <di:waypoint x="334" y="118" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

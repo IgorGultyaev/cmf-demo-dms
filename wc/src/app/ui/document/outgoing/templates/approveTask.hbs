@@ -1,0 +1,73 @@
+<div class="row" style="padding:0px;">
+    {{#if-not editor.presenter.options.hideMenu}}
+        {{#if-menu editor.topMenu}}
+            <div class="x-editor-tab-content row hide-lg" style="margin: 0px">
+                <div class="x-editor-menu-container x-menu-bar">
+                    {{#if-menu editor.topMenuSwitch}}
+                        {{view class="ui.MenuPresenter" viewModel=editor.topMenuSwitch tag="div"
+                               cssClass="x-editor-menu hide-lg" dropup=true}}
+                    {{/if-menu}}
+                </div>
+            </div>
+        {{/if-menu}}
+    {{/if-not}}
+    <div class="col-lg-4 cmf-task">
+        <div id="task-affix" style="padding: 0px 30px; box-shadow: none">
+            <div class="row x-pe-container">
+                <label class="x-pe-label">{{viewModel.meta.props.comment.descr}}</label>
+                {{pe name="comment" viewModel=viewModel tag="div"}}
+            </div>
+            <div class="row x-pe-container">
+                <label class="x-pe-label">{{viewModel.meta.model.entities.OutgoingDocument.props.summary.descr}}</label>
+                <div>
+                    {{pe name="summary" viewModel=viewModel.approver.queue.iteration.document tag="div" readOnly=true}}
+                </div>
+            </div>
+            <div class="row x-pe-container">
+                <label class="col-sm-4 x-pe-label">{{viewModel.meta.model.entities.OutgoingDocument.props.documentKind.descr}}</label>
+                <div class="col-sm-8">
+                    {{pe name="documentKind" viewModel=viewModel.approver.queue.iteration.document tag="div" readOnly=true}}
+                </div>
+            </div>
+            <div class="row x-pe-container">
+                <label class="col-sm-4 x-pe-label">{{viewModel.meta.model.entities.OutgoingDocument.props.performer.descr}}</label>
+                <div class="col-sm-8 performer">
+                    <div style="float:left;">{{pe name="performer" viewModel=viewModel.approver.queue.iteration.document tag="div"
+                                                  readOnly=true}}</div>
+                </div>
+            </div>
+            <div class="row x-pe-container">
+                <label class="col-sm-4 x-pe-label">{{viewModel.meta.model.entities.OutgoingDocument.props.author.descr}}</label>
+                <div class="col-sm-8 author">
+                    <div style="float:left;">{{pe name="author" viewModel=viewModel.approver.queue.iteration.document tag="div"
+                                                  readOnly=true}}</div>
+                </div>
+
+            </div>
+
+            <div class="row x-pe-container">
+                <label class="col-sm-4 x-pe-label">{{viewModel.meta.model.entities.OutgoingDocument.props.status.descr}}</label>
+                <div class="col-sm-8">
+                    {{pe name="status" viewModel=viewModel.approver.queue.iteration.document readOnly=true tag="div"}}
+                </div>
+            </div>
+
+            <div class="row x-pe-container">
+                <label class="col-sm-4 x-pe-label">{{viewModel.meta.model.entities.OutgoingDocument.props.addressees.descr}}</label>
+                <div class="col-sm-8">
+                    {{pe name="addressees" viewModel=viewModel.approver.queue.iteration.document tag="div" navigable=true}}
+                </div>
+            </div>
+
+            <div class="row">
+                <a href="#" {{command-bind editor.commands.ShowCurrentApproval object=this}}> {{format
+                        'part.task.current.approval' formatter=editor.options.['resourcesFormatter']}}</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 cmf-document command-hide" style="padding:0px;">
+        {{render previewComponent}}
+    </div>
+
+</div>
+

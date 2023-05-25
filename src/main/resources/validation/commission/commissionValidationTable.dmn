@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_1pt7wyk" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="CommissionValidationDecision_Main" name="Валидация поручения">
+    <decisionTable id="decisionTable" hitPolicy="COLLECT">
+      <input id="input1" label="Команда" camunda:inputVariable="">
+        <inputExpression id="inputExpression1" typeRef="string">        <text>operation</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_1a28mta" label="Состояние" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_1gtfakt" typeRef="string">        <text>mainObject.status.systemName</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_1pcfim8" label="Текст" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_1b804wg" typeRef="string">        <text><![CDATA[${"".equals(mainObject.getDescription())?null:mainObject.getDescription()}]]></text>
+</inputExpression>
+      </input>
+      <input id="InputClause_1igk2ii" label="Общий срок" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_07njyxp" typeRef="string">        <text>${mainObject.deadline==null?null:mainObject.deadline.toString()}</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_1ntm72a" label="Без срока" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_0rcbs14" typeRef="boolean">        <text>mainObject.toFamiliarize</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_0xsabyn" label="Автор" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_0pwuns6" typeRef="string">        <text>${mainObject.author==null?null:mainObject.author.toString()}</text>
+</inputExpression>
+      </input>
+      <output id="output1" label="Сообщение об ошибке" name="message" typeRef="string" />
+      <output id="OutputClause_0suk7d3" label="Описание ошибки" name="description" typeRef="string" />
+      <output id="OutputClause_02nqlg8" label="Наименование свойств" name="propertyName" typeRef="string" />
+      <output id="OutputClause_0rvi8iu" label="Игнорируемая?" name="ignorable" typeRef="boolean" />
+      <rule id="row-415324445-1">
+        <inputEntry id="UnaryTests_15pp7pp">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1q18e7p">        <text><![CDATA[not("CommissionStatus_Draft")]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1keaobp">        <text>null</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0fprffe">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_16b86ep">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1myjvt0">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1s4y68m">        <text><![CDATA["Поле \"Текст поручения\" должно быть заполнено."]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1om16cb">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1df09yl">        <text><![CDATA["description"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1t1biqs">        <text>false</text>
+</outputEntry>
+      </rule>
+      <rule id="row-415324445-2">
+        <inputEntry id="UnaryTests_1sr9pda">        <text><![CDATA[not("dvoSave")]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0y14ybm">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1bsnozx">        <text>null</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1iu812o">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_07ljod4">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1u1hi0h">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0edgtj2">        <text><![CDATA["Поле \"Текст поручения\" должно быть заполнено."]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_126fyjo">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_099uiky">        <text><![CDATA["description"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_06y7s8j">        <text>false</text>
+</outputEntry>
+      </rule>
+      <rule id="row-997827447-1">
+        <inputEntry id="UnaryTests_07hnl03">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1wle1yv">        <text><![CDATA[not("CommissionStatus_Draft")]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0fqypb1">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0dbcyzy">        <text>null</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0fi9o13">        <text>false</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1deipg6">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0zgr5hu">        <text><![CDATA["Поле \"Общий срок\" должно быть заполнено."]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1izxi6d">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1do1mf0">        <text><![CDATA["deadline"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1exwcug">        <text>false</text>
+</outputEntry>
+      </rule>
+      <rule id="row-997827447-2">
+        <inputEntry id="UnaryTests_0e4on5m">        <text><![CDATA[not("dvoSave")]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0oar6h5">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0nn6b3w">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0w33myt">        <text>null</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0iqndqo">        <text>false</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0evuf6z">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0pvnlp2">        <text><![CDATA["Поле \"Общий срок\" должно быть заполнено."]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0eg5zq3">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0ip0tjh">        <text><![CDATA["deadline"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1tqc98j">        <text>false</text>
+</outputEntry>
+      </rule>
+      <rule id="row-997827447-3">
+        <inputEntry id="UnaryTests_1itsimm">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1fnmhit">        <text><![CDATA[not("CommissionStatus_Draft")]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1hnidai">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0v0ayj4">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_10gmwg8">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_110zwhg">        <text>null</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_172w6pc">        <text><![CDATA["Поле \"Автор поручения\" должно быть заполнено."]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0v5dcru">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_15b1jyr">        <text><![CDATA["author"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_003x5rj">        <text>false</text>
+</outputEntry>
+      </rule>
+      <rule id="row-997827447-4">
+        <inputEntry id="UnaryTests_1rgg96m">        <text><![CDATA[not("dvoSave")]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1q44x81">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1w50913">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0z6msaa">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0k8gjla">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_083k4mg">        <text>null</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1m9jm3s">        <text><![CDATA["Поле \"Автор поручения\" должно быть заполнено."]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0lmw4ft">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_12uq19b">        <text><![CDATA["author"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0qivn6l">        <text>false</text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
