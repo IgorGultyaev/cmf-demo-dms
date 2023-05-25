@@ -35,7 +35,7 @@ import java.util.Collections;
 @Component("processOutgoingDocumentTaskAssigneeResolver")
 public class OutgoingDocumentTaskAssigneeResolver implements DocumentTaskAssigneeResolver<OutgoingDocument> {
 
-//**************************
+//**************************${.resolveAttachOriginalTaskAssigneeIds(processObjectId)}
     @Transactional(readOnly = true)
     @ProcessMethod
     public Collection<String> resolveOutgoRegistrationTaskAssigneeIds(final String documentId) {

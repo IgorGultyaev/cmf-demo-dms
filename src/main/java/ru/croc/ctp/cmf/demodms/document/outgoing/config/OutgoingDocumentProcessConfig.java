@@ -51,6 +51,18 @@ public class OutgoingDocumentProcessConfig {
 //********************************************
 
 
+            //********************************************
+            repositoryService.createDeployment()
+                    .addInputStream("outgoinDocumentAttachOriginalSubProcess.bpmn",
+                            Thread.currentThread()
+                                    .getContextClassLoader()
+                                    .getResourceAsStream("process/document/outgoing/outgoinDocumentAttachOriginalSubProcess.bpmn"))
+                    .name(OutgoingDocumentProcessDefinitionName.PROCESS_OUTGOING_DOCUMENT_MAIN)
+                    .enableDuplicateFiltering(true)
+                    .deploy();
+//********************************************
+
+
 
             repositoryService.createDeployment()
                     .addInputStream("outgoingDocumentInitSubProcess.bpmn",
